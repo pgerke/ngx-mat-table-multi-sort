@@ -1,0 +1,11 @@
+# This is a CODEOWNERS file.
+# Lines starting with '#' are comments.
+# Each line is a file pattern followed by one or more owners.
+# The '\*' pattern matches all files in the repository.
+* @pgerke @michix99
+
+# Specific directories or files can have different owners.
+# For example, to make someone else the owner of the src directory:
+# /src/ @another-github-username
+# You can also specify multiple owners for a file or directory.
+# /docs/ @your-github-username @another-github-username
