@@ -1,0 +1,9 @@
+name: Pull Request
+
+on: pull_request
+
+jobs:
+  ci:
+    name: Continuous Integration
+    uses: ./.github/workflows/ci.yml
+    secrets: inherit
