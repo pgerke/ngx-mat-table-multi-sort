@@ -40,9 +40,10 @@ jobs:
           path: coverage
           retention-days: 5
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v4
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: pgerke/ngx-mat-table-multi-sort
 
   lint:
     name: Lint
