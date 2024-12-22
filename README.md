@@ -1,6 +1,10 @@
 # ngx-mat-table-multi-sort
 
-![License](https://img.shields.io/github/license/pgerke/homebridge-freeathome-local-api?style=flat-square)
+![CI](https://img.shields.io/github/actions/workflow/status/pgerke/ngx-mat-table-multi-sort/ci.yml?style=flat-square)
+[![codecov](https://codecov.io/gh/pgerke/ngx-mat-table-multi-sort/branch/main/graph/badge.svg?token=V5ICB2MGH0)](https://codecov.io/gh/pgerke/ngx-mat-table-multi-sort)
+![Dependencies](https://img.shields.io/librariesio/release/npm/ngx-mat-table-multi-sort?style=flat-square)
+![npm](https://img.shields.io/npm/v/ngx-mat-table-multi-sort?style=flat-square)
+![License](https://img.shields.io/github/license/pgerke/ngx-mat-table-multi-sort?style=flat-square)
 
 ## License
 

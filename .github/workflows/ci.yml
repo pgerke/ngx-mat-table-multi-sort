@@ -1,0 +1,12 @@
+name: Continuous Integration
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+jobs:
+  ci:
+    name: Continuous Integration
+    uses: ./.github/workflows/shared.yml
+    secrets: inherit
