@@ -8,5 +8,5 @@ on:
 jobs:
   ci:
     name: Continuous Integration
-    uses: ./.github/workflows/common.yml
+    uses: ./.github/workflows/shared.yml
     secrets: inherit
