@@ -1,15 +1,9 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
 @Component({
-  selector: 'lib-lib',
+  selector: "lib-lib",
   imports: [],
-  template: `
-    <p>
-      lib works!
-    </p>
-  `,
-  styles: ``
+  template: ` <p>lib works!</p> `,
+  styles: ``,
 })
-export class LibComponent {
-
-}
+export class LibComponent {}

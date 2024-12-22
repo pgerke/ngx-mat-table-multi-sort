@@ -8,9 +8,7 @@
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "paths": {
-      "lib": [
-        "./dist/lib"
-      ]
+      "lib": ["./dist/lib"]
     },
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
@@ -20,7 +18,7 @@
     "experimentalDecorators": true,
     "moduleResolution": "bundler",
     "importHelpers": true,
-    "target": "ES2022",
+    "target": "ES2023",
     "module": "ES2022"
   },
   "angularCompilerOptions": {
