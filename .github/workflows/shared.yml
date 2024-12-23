@@ -2,8 +2,8 @@ on:
   - workflow_call
 
 jobs:
-  build:
-    name: Build
+  build_library:
+    name: Build Library
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -16,6 +16,27 @@ jobs:
         run: npm ci
       - name: Build for production
         run: npm run build
+
+  build_demo:
+    name: Build Demo
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - name: Restore dependencies
+        run: npm ci
+      - name: Build for production
+        run: npm run build:demo
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: demo
+          path: dist/demo
+          retention-days: 5
 
   test:
     name: Test
