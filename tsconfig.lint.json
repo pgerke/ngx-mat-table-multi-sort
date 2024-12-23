@@ -4,6 +4,11 @@
     "sourceMap": true
   },
   "extends": "./tsconfig.json",
-  "include": ["src/**/*.ts", "src/**/*.d.ts"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "projects/**/*.ts",
+    "projects/**/*.d.ts"
+  ],
   "exclude": ["node_modules", "dist"]
 }
