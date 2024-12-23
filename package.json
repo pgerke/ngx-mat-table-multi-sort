@@ -7,7 +7,7 @@
     "clean": "rimraf dist coverage",
     "start:demo": "ng serve demo",
     "build": "npm run clean && ng build --configuration production",
-    "build:demo": "npm run clean && ng build --configuration production demo",
+    "build:demo": "npm run clean && ng build --base-href=/ngx-mat-table-multi-sort/ --configuration production demo",
     "test": "ng test lib --browsers ChromeHeadless --code-coverage",
     "test:ci": "npm run clean && ng test --browsers ChromeHeadless --code-coverage --watch=false",
     "lint": "npm run clean && ng lint --fix --max-warnings 0"
