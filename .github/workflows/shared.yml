@@ -19,7 +19,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: demo
+          name: library
           path: dist/lib
           retention-days: 5
 
