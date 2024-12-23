@@ -16,7 +16,7 @@ Please refer to the [changelog](./CHANGELOG.md) document or the [release notes](
 
 ## Demo
 
-The demo application is hosted on [GitHub pages](https://pgerke.github.com/ngx-mat-table-multi-sort). You can also clone the repository and run the demo locally.
+The demo application is hosted on [GitHub pages](https://pgerke.github.io/ngx-mat-table-multi-sort/). You can also clone the repository and run the demo locally.
 
 1. Clone the repository to your local machine
 1. Run `npm install` to restore the dependencies
