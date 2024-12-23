@@ -35,6 +35,8 @@ jobs:
           node-version: lts/*
       - name: Restore dependencies
         run: npm ci
+      - name: Update application version
+        run: sed -i "s/APP_VERSION = \".*\"/APP_VERSION = \"v$(jq -r .version package.json)-$(git rev-parse --short HEAD)\"/g" projects/demo/src/app/app.component.ts
       - name: Build for production
         run: npm run build:demo
       - name: Upload artifacts
