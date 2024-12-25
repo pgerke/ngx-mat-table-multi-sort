@@ -2,5 +2,5 @@
  * Public API Surface of lib
  */
 
-export * from "./lib/lib.service";
-export * from "./lib/lib.component";
+export * from "./lib/mat-multi-sort.directive";
+export * from "./lib/mat-multi-sort-header/mat-multi-sort-header.component";

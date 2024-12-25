@@ -1,0 +1,150 @@
+@use "@angular/material/core/tokens/m2/mat/sort" as tokens-mat-sort;
+@use "@angular/material/core/focus-indicators/private";
+@use "@angular/material/core/tokens/token-utils";
+
+.mat-sort-header-container {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  letter-spacing: normal;
+
+  // Needs to be reset since we don't want an outline around the inner
+  // div which is focusable. We have our own alternate focus styling.
+  outline: 0;
+
+  // Usually we could rely on the arrow showing up to be focus indication, but if a header is
+  // active, the arrow will always be shown so the user has no way of telling the difference.
+  [mat-sort-header].cdk-keyboard-focused &,
+  [mat-sort-header].cdk-program-focused & {
+    border-bottom: solid 1px currentColor;
+  }
+
+  .mat-sort-header-disabled & {
+    cursor: default;
+  }
+
+  // For the sort-header element, default inset/offset values are necessary to ensure that
+  // the focus indicator is sufficiently contrastive and renders appropriately.
+  &::before {
+    $border-width: var(
+      --mat-focus-indicator-border-width,
+      #{private.$default-border-width}
+    );
+    $offset: calc(#{$border-width} + 2px);
+    margin: calc(#{$offset} * -1);
+  }
+}
+
+.mat-sort-header-content {
+  display: flex;
+  align-items: center;
+}
+
+.mat-sort-header-position-before {
+  flex-direction: row-reverse;
+}
+
+@keyframes _mat-sort-header-recently-cleared-ascending {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateY(-25%);
+    opacity: 0;
+  }
+}
+
+@keyframes _mat-sort-header-recently-cleared-descending {
+  from {
+    transform: translateY(0) rotate(180deg);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateY(25%) rotate(180deg);
+    opacity: 0;
+  }
+}
+
+.mat-sort-header-arrow {
+  $timing: 225ms cubic-bezier(0.4, 0, 0.2, 1);
+  height: 12px;
+  width: 12px;
+  position: relative;
+  transition:
+    transform $timing,
+    opacity $timing;
+  opacity: 0;
+  overflow: visible;
+
+  @include token-utils.use-tokens(
+    tokens-mat-sort.$prefix,
+    tokens-mat-sort.get-token-slots()
+  ) {
+    @include token-utils.create-token-slot(color, arrow-color);
+  }
+
+  .mat-sort-header.cdk-keyboard-focused &,
+  .mat-sort-header.cdk-program-focused &,
+  .mat-sort-header:hover & {
+    opacity: 0.54;
+  }
+
+  .mat-sort-header .mat-sort-header-sorted & {
+    opacity: 1;
+  }
+
+  .mat-sort-header-descending & {
+    transform: rotate(180deg);
+  }
+
+  .mat-sort-header-recently-cleared-ascending & {
+    transform: translateY(-25%);
+  }
+
+  .mat-sort-header-recently-cleared-ascending & {
+    transition: none; // Without this the animation looks glitchy on Safari.
+    animation: _mat-sort-header-recently-cleared-ascending $timing forwards;
+  }
+
+  .mat-sort-header-recently-cleared-descending & {
+    transition: none; // Without this the animation looks glitchy on Safari.
+    animation: _mat-sort-header-recently-cleared-descending $timing forwards;
+  }
+
+  // Set the durations to 0, but keep the actual animation, since we still want it to play.
+  .mat-sort-header-animations-disabled & {
+    transition-duration: 0ms;
+    animation-duration: 0ms;
+  }
+
+  svg {
+    // Even though this is 24x24, the actual `path` inside ends up being 12x12.
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -12px 0 0 -12px;
+
+    // Without this transform the element twitches at the end of the transition on Safari.
+    transform: translateZ(0);
+  }
+
+  &,
+  [dir="rtl"] .mat-sort-header-position-before & {
+    margin: 0 0 0 6px;
+  }
+
+  .mat-sort-header-position-before &,
+  [dir="rtl"] & {
+    margin: 0 6px 0 0;
+  }
+}
+
+.mat-sort-header-counter {
+  color: var(--mat-sort-arrow-color, var(--mat-sys-on-surface));
+}

@@ -1,11 +1,11 @@
 <h1 class="title">{{ title }}</h1>
-<table mat-table [dataSource]="dataSource" matSort>
+<table mat-table [dataSource]="dataSource" matMultiSort>
   <!-- Position Column -->
   <ng-container matColumnDef="position">
     <th
       mat-header-cell
       *matHeaderCellDef
-      mat-sort-header
+      mat-multi-sort-header
       sortActionDescription="Sort by number">
       No.
     </th>
@@ -17,7 +17,7 @@
     <th
       mat-header-cell
       *matHeaderCellDef
-      mat-sort-header
+      mat-multi-sort-header
       sortActionDescription="Sort by name">
       Name
     </th>
@@ -29,7 +29,7 @@
     <th
       mat-header-cell
       *matHeaderCellDef
-      mat-sort-header
+      mat-multi-sort-header
       sortActionDescription="Sort by weight">
       Weight
     </th>
@@ -41,7 +41,7 @@
     <th
       mat-header-cell
       *matHeaderCellDef
-      mat-sort-header
+      mat-multi-sort-header
       sortActionDescription="Sort by symbol">
       Symbol
     </th>

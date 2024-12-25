@@ -1,7 +1,10 @@
 import { AfterViewInit, Component, ViewChild } from "@angular/core";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
-import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import {
+  MatMultiSortDirective,
+  MatMultiSortHeaderComponent,
+} from "../../../../src/public-api";
 
 /**
  * Represents an element in the periodic table.
@@ -57,7 +60,12 @@ const ELEMENT_DATA: PeriodicElement[] = [
 
 @Component({
   selector: "app-root",
-  imports: [MatTableModule, MatPaginatorModule, MatSortModule],
+  imports: [
+    MatTableModule,
+    MatPaginatorModule,
+    MatMultiSortDirective,
+    MatMultiSortHeaderComponent,
+  ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
 })
@@ -107,10 +115,10 @@ export class AppComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   /**
-   * Reference to the MatSort directive, which is used to manage the sorting of table columns.
+   * Reference to the MatMultiSort directive, which is used to manage the sorting of table columns.
    * This is used to provide sorting functionality to the Angular Material table.
    */
-  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatMultiSortDirective) sort!: MatMultiSortDirective;
 
   /**
    * The title of the application, displayed in the UI.

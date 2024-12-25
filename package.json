@@ -1,6 +1,6 @@
 {
   "name": "ngx-mat-table-multi-sort",
-  "version": "19.0.0-pre.2",
+  "version": "19.0.0-pre.3",
   "preview": true,
   "scripts": {
     "ng": "ng",
@@ -10,7 +10,8 @@
     "build:demo": "npm run clean && ng build --base-href=/ngx-mat-table-multi-sort/ --configuration production demo",
     "test": "ng test lib --browsers ChromeHeadless --code-coverage",
     "test:ci": "npm run clean && ng test --browsers ChromeHeadless --code-coverage --watch=false",
-    "lint": "npm run clean && ng lint --fix --max-warnings 0"
+    "lint": "npm run clean && ng lint --fix --max-warnings 0",
+    "prepublishOnly": "npm run lint && npm run build"
   },
   "license": "MIT",
   "author": {
