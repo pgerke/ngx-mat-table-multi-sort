@@ -12,8 +12,8 @@
   class="mat-sort-header-container mat-focus-indicator"
   [class.mat-sort-header-sorted]="_isSorted()"
   [class.mat-sort-header-position-before]="arrowPosition === 'before'"
-  [class.mat-sort-header-descending]="this._sort.direction === 'desc'"
-  [class.mat-sort-header-ascending]="this._sort.direction === 'asc'"
+  [class.mat-sort-header-descending]="sortDirection === 'desc'"
+  [class.mat-sort-header-ascending]="sortDirection === 'asc'"
   [class.mat-sort-header-recently-cleared-ascending]="
     _recentlyCleared() === 'asc'
   "
@@ -45,6 +45,6 @@
     </div>
   }
   <div *ngIf="_isSorted()" class="mat-sort-header-counter">
-    {{ sortId + 1 }}
+    {{ sortIndex + 1 }}
   </div>
 </div>
