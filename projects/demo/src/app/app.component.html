@@ -1,15 +1,15 @@
 <h1 class="title">{{ title }}</h1>
 <table mat-table [dataSource]="dataSource" matMultiSort>
-  <!-- Position Column -->
-  <ng-container matColumnDef="position">
+  <!-- ID Column -->
+  <ng-container matColumnDef="id">
     <th
       mat-header-cell
       *matHeaderCellDef
       mat-multi-sort-header
-      sortActionDescription="Sort by number">
-      No.
+      sortActionDescription="Sort by ID">
+      ID
     </th>
-    <td mat-cell *matCellDef="let element">{{ element.position }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.id }}</td>
   </ng-container>
 
   <!-- Name Column -->
@@ -24,28 +24,64 @@
     <td mat-cell *matCellDef="let element">{{ element.name }}</td>
   </ng-container>
 
-  <!-- Weight Column -->
-  <ng-container matColumnDef="weight">
+  <!-- Age Column -->
+  <ng-container matColumnDef="age">
     <th
       mat-header-cell
       *matHeaderCellDef
       mat-multi-sort-header
-      sortActionDescription="Sort by weight">
-      Weight
+      sortActionDescription="Sort by age">
+      Age
     </th>
-    <td mat-cell *matCellDef="let element">{{ element.weight }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.age }}</td>
   </ng-container>
 
-  <!-- Symbol Column -->
-  <ng-container matColumnDef="symbol">
+  <!-- Active Column -->
+  <ng-container matColumnDef="active">
     <th
       mat-header-cell
       *matHeaderCellDef
       mat-multi-sort-header
-      sortActionDescription="Sort by symbol">
-      Symbol
+      sortActionDescription="Sort by active">
+      Active
     </th>
-    <td mat-cell *matCellDef="let element">{{ element.symbol }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.active }}</td>
+  </ng-container>
+
+  <!-- Join Date Column -->
+  <ng-container matColumnDef="joinDate">
+    <th
+      mat-header-cell
+      *matHeaderCellDef
+      mat-multi-sort-header
+      sortActionDescription="Sort by join date">
+      Join Date
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element.joinDate }}</td>
+  </ng-container>
+
+  <!-- Score Column -->
+  <ng-container matColumnDef="score">
+    <th
+      mat-header-cell
+      *matHeaderCellDef
+      mat-multi-sort-header
+      sortActionDescription="Sort by score">
+      Score
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element.score }}</td>
+  </ng-container>
+
+  <!-- Department Column -->
+  <ng-container matColumnDef="department">
+    <th
+      mat-header-cell
+      *matHeaderCellDef
+      mat-multi-sort-header
+      sortActionDescription="Sort by department">
+      Department
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element.department }}</td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
