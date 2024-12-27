@@ -84,6 +84,18 @@
     <td mat-cell *matCellDef="let element">{{ element.department }}</td>
   </ng-container>
 
+  <!-- Comment Column -->
+  <ng-container matColumnDef="comment">
+    <th
+      mat-header-cell
+      *matHeaderCellDef
+      mat-multi-sort-header
+      sortActionDescription="Sort by comment">
+      Comment
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element.comment }}</td>
+  </ng-container>
+
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>

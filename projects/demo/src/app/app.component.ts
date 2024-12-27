@@ -1,9 +1,10 @@
 import { AfterViewInit, Component, ViewChild } from "@angular/core";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
-import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { MatTableModule } from "@angular/material/table";
 import {
   MatMultiSortDirective,
   MatMultiSortHeaderComponent,
+  MatMultiSortTableDataSource,
 } from "../../../../src/public-api";
 import { MEMBER_DATA, MemberInformation } from "./data";
 
@@ -42,9 +43,11 @@ export class AppComponent implements AfterViewInit {
    * It is initialized with the provided `MEMBER_DATA`.
    *
    * @readonly
-   * @type {MatTableDataSource<MemberInformation>}
+   * @type {MatMultiSortTableDataSource<MemberInformation>}
    */
-  readonly dataSource = new MatTableDataSource<MemberInformation>(MEMBER_DATA);
+  readonly dataSource = new MatMultiSortTableDataSource<MemberInformation>(
+    MEMBER_DATA
+  );
 
   /**
    * An array of strings representing the columns to be displayed in the table.

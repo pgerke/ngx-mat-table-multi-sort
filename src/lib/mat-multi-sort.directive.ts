@@ -1,6 +1,10 @@
-import { Directive, OnDestroy, OnInit } from "@angular/core";
-import { MatSort, Sort, SortDirection } from "@angular/material/sort";
-import { debounceTime, Subscription } from "rxjs";
+import { Directive } from "@angular/core";
+import {
+  MatSort,
+  MatSortable,
+  Sort,
+  SortDirection,
+} from "@angular/material/sort";
 
 @Directive({
   selector: "[matMultiSort]",
@@ -9,25 +13,8 @@ import { debounceTime, Subscription } from "rxjs";
     class: "mat-sort",
   },
 })
-export class MatMultiSortDirective
-  extends MatSort
-  implements OnInit, OnDestroy
-{
+export class MatMultiSortDirective extends MatSort {
   readonly _sorts: Sort[] = [];
-  private sortChangeSubscription?: Subscription;
-
-  override ngOnInit(): void {
-    super.ngOnInit();
-    this.sortChangeSubscription = this.sortChange
-      .pipe(debounceTime(200)) // In a "normal" sort operation, the event is triggered multiple times, so we debounce it to only get the last event with the correct, final direction.
-      .subscribe((change) => this.processSortChange(change));
-  }
-
-  override ngOnDestroy(): void {
-    super.ngOnDestroy();
-    this.sortChangeSubscription?.unsubscribe();
-    this.sortChangeSubscription = undefined;
-  }
 
   /**
    * Retrieves the sort direction for a given column ID.
@@ -50,21 +37,24 @@ export class MatMultiSortDirective
     return this._sorts.findIndex((e) => e.active === id);
   }
 
-  private processSortChange(change: Sort): void {
-    const index = this.getSortIndex(change.active);
+  override sort(sortable: MatSortable): void {
+    this.active = sortable.id;
+    const index = this.getSortIndex(sortable.id);
 
     // If the column is not active, add it to the list of active columns.
     if (index < 0) {
-      this._sorts.push(change);
-      return;
+      this.direction = sortable.start ? sortable.start : this.start;
+      this._sorts.push({ active: this.active, direction: this.direction });
+    } else {
+      // If the column is active, update the direction or remove it if the direction is empty.
+      this.direction = this.getNextSortDirection(sortable);
+      if (!this.direction) {
+        this._sorts.splice(index, 1);
+      } else {
+        this._sorts[index].direction = this.direction;
+      }
     }
 
-    // If the column is active, update the direction or remove it if the direction is empty.
-    if (change.direction === "") {
-      this._sorts.splice(index, 1);
-      return;
-    } else {
-      this._sorts[index].direction = change.direction;
-    }
+    this.sortChange.emit({ active: this.active, direction: this.direction });
   }
 }

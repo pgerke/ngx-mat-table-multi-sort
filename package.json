@@ -1,6 +1,6 @@
 {
   "name": "ngx-mat-table-multi-sort",
-  "version": "19.0.0-pre.3",
+  "version": "19.0.0-pre.4",
   "preview": true,
   "scripts": {
     "ng": "ng",

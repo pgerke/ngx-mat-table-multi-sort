@@ -10,14 +10,6 @@ import { MatMultiSortDirective } from "../mat-multi-sort.directive";
   providers: [{ provide: MatSort, useExisting: MatMultiSortDirective }],
   templateUrl: "./mat-multi-sort-header.component.html",
   styleUrl: "./mat-multi-sort-header.component.scss",
-  host: {
-    class: "mat-sort-header",
-    "(click)": "_toggleOnInteraction()",
-    "(keydown)": "_handleKeydown($event)",
-    "(mouseleave)": "_recentlyCleared.set(false)",
-    "[attr.aria-sort]": "_getAriaSortAttribute()",
-    "[class.mat-sort-header-disabled]": "_isDisabled()",
-  },
   encapsulation: ViewEncapsulation.None,
 })
 export class MatMultiSortHeaderComponent
@@ -51,5 +43,16 @@ export class MatMultiSortHeaderComponent
 
   override _isSorted(): boolean {
     return this.sortIndex > -1;
+  }
+
+  override _toggleOnInteraction(): void {
+    if (this._isDisabled()) return;
+
+    const wasSorted = this._isSorted();
+    const prevDirection = this.sortDirection;
+    this._sort.sort(this);
+    this._recentlyCleared.set(
+      wasSorted && !this._isSorted() ? prevDirection : null
+    );
   }
 }
