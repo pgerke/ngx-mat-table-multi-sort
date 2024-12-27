@@ -15,35 +15,32 @@ import { MatMultiSortDirective } from "./mat-multi-sort.directive";
  * @returns {number} - A negative number if `a` should come before `b`, a positive number if `a` should come after `b`, or 0 if they are considered equal.
  */
 export function MultiCriterionSort<T>(a: T, b: T, sorts: Sort[]): number {
-  for (const sortLevel of sorts) {
-    const aValue = a[sortLevel.active as keyof T];
-    const bValue = b[sortLevel.active as keyof T];
+  for (const { active, direction } of sorts) {
+    const aValue = a[active as keyof T];
+    const bValue = b[active as keyof T];
 
-    let comparison = 0;
+    const comparison = compareValues(aValue, bValue);
 
-    // Handle null, undefined, and different types gracefully
-    if (aValue == null && bValue != null) {
-      comparison = 1;
-    } else if (aValue != null && bValue == null) {
-      comparison = -1;
-    } else if (aValue != null && bValue != null) {
-      if (typeof aValue === "string" && typeof bValue === "string") {
-        comparison = aValue.localeCompare(bValue);
-      } else {
-        comparison = aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
-      }
+    if (comparison !== 0) {
+      return direction === "desc" ? -comparison : comparison;
     }
-
-    // Apply sorting direction
-    if (sortLevel.direction === "desc") {
-      comparison *= -1;
-    }
-
-    // If two items are not equal, return the comparison result
-    if (comparison !== 0) return comparison;
   }
 
   return 0; // If all comparisons are equal, preserve original order
+}
+
+function compareValues<T>(aValue: T, bValue: T): number {
+  if (aValue == null && bValue != null) return 1;
+  if (aValue != null && bValue == null) return -1;
+  if (aValue == null && bValue == null) return 0;
+
+  if (typeof aValue === "string" && typeof bValue === "string") {
+    return aValue.localeCompare(bValue);
+  }
+
+  if (aValue > bValue) return 1;
+  if (aValue < bValue) return -1;
+  return 0;
 }
 
 /**

@@ -109,11 +109,6 @@
     animation: _mat-sort-header-recently-cleared-ascending $timing forwards;
   }
 
-  .mat-sort-header-recently-cleared-descending & {
-    transition: none; // Without this the animation looks glitchy on Safari.
-    animation: _mat-sort-header-recently-cleared-descending $timing forwards;
-  }
-
   // Set the durations to 0, but keep the actual animation, since we still want it to play.
   .mat-sort-header-animations-disabled & {
     transition-duration: 0ms;
