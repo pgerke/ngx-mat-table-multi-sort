@@ -32,7 +32,12 @@
             "polyfills": [
               "zone.js",
               "zone.js/testing"
-            ]
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules"
+              ]
+            }
           }
         },
         "lint": {
@@ -135,6 +140,11 @@
                 "input": "projects/demo/public"
               }
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules"
+              ]
+            },
             "styles": [
               "projects/demo/src/styles.scss"
             ],

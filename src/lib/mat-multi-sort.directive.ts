@@ -39,6 +39,7 @@ export class MatMultiSortDirective extends MatSort {
 
   override sort(sortable: MatSortable): void {
     this.active = sortable.id;
+    this.direction = this.getSortDirection(sortable.id);
     const index = this.getSortIndex(sortable.id);
 
     // If the column is not active, add it to the list of active columns.

@@ -14,7 +14,7 @@ import { MatMultiSortDirective } from "./mat-multi-sort.directive";
  * @param {Sort[]} sorts - An array of sorting criteria, where each criterion specifies the property to sort by and the direction of sorting.
  * @returns {number} - A negative number if `a` should come before `b`, a positive number if `a` should come after `b`, or 0 if they are considered equal.
  */
-export function MultiColumnSort<T>(a: T, b: T, sorts: Sort[]): number {
+export function MultiCriterionSort<T>(a: T, b: T, sorts: Sort[]): number {
   for (const sortLevel of sorts) {
     const aValue = a[sortLevel.active as keyof T];
     const bValue = b[sortLevel.active as keyof T];
@@ -76,6 +76,6 @@ export class MatMultiSortTableDataSource<
     if (!this.sort?._sorts.length) return data;
 
     // Sort the data:
-    return data.sort((a, b) => MultiColumnSort(a, b, this.sort!._sorts));
+    return data.sort((a, b) => MultiCriterionSort(a, b, this.sort!._sorts));
   }
 }
