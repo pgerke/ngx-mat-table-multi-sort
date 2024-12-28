@@ -102,9 +102,6 @@
 
   .mat-sort-header-recently-cleared-ascending & {
     transform: translateY(-25%);
-  }
-
-  .mat-sort-header-recently-cleared-ascending & {
     transition: none; // Without this the animation looks glitchy on Safari.
     animation: _mat-sort-header-recently-cleared-ascending $timing forwards;
   }
