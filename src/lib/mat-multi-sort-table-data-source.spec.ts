@@ -88,7 +88,7 @@ describe("MatMultiSortTableDataSource", () => {
     dataSource = new MatMultiSortTableDataSource();
   });
 
-  it("should be create", () => {
+  it("should be created", () => {
     expect(dataSource).toBeTruthy();
     expect(dataSource.sort).toBeUndefined();
   });
