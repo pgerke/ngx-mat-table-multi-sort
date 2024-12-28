@@ -2,6 +2,7 @@
 
 [![Continuous Integration](https://github.com/pgerke/ngx-mat-table-multi-sort/actions/workflows/ci.yml/badge.svg)](https://github.com/pgerke/ngx-mat-table-multi-sort/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/pgerke/ngx-mat-table-multi-sort/graph/badge.svg?token=MDIEOFNUYR)](https://codecov.io/gh/pgerke/ngx-mat-table-multi-sort)
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=pgerke_ngx-mat-table-multi-sort&token=1114974e75c8639e88919fd32d36163e5c3c851c)](https://sonarcloud.io/summary/new_code?id=pgerke_ngx-mat-table-multi-sort)
 ![Dependencies](https://img.shields.io/librariesio/release/npm/ngx-mat-table-multi-sort)
 ![npm](https://img.shields.io/npm/v/ngx-mat-table-multi-sort)
 ![License](https://img.shields.io/github/license/pgerke/ngx-mat-table-multi-sort)

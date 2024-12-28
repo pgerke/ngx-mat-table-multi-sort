@@ -59,53 +59,19 @@ jobs:
         run: npm ci
       - name: Run unit test
         run: npm run test:ci
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage
-          path: coverage
-          retention-days: 5
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: pgerke/ngx-mat-table-multi-sort
-
-  sonarqube:
-    name: SonarQube
-    runs-on: [mini]
-    needs: [test]
-    steps:
-      - name: Install dependencies
-        run: sudo apt-get update -y && sudo apt-get install -y curl unzip jq
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-      - name: Load SonarQube Analysis Token
-        id: load-secrets
-        uses: 1password/load-secrets-action@v2
-        with:
-          export-env: false
-        env:
-          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_REFERENCE }}
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: coverage
-          path: "./coverage/"
       - name: Extract version
         id: version-extraction
         run: echo "APP_VERSION=$(jq -r .version package.json)" >> "$GITHUB_OUTPUT"
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
         env:
-          SONAR_TOKEN: ${{ steps.load-secrets.outputs.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONARQUBE_HOST_URL }}
-          SONAR_ROOT_CERT: ${{ secrets.SONARQUBE_ROOT_CERT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
             -Dsonar.projectVersion=${{ steps.version-extraction.outputs.APP_VERSION }}

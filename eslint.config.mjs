@@ -33,7 +33,7 @@ const config = tseslint.config(
         "error",
         {
           type: "attribute",
-          prefix: "lib",
+          prefix: "matMultiSort",
           style: "camelCase",
         },
       ],
@@ -41,7 +41,7 @@ const config = tseslint.config(
         "error",
         {
           type: "element",
-          prefix: "lib",
+          prefix: "mat-multi-sort",
           style: "kebab-case",
         },
       ],
