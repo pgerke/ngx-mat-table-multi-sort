@@ -63,13 +63,14 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          slug: pgerke/ngx-mat-table-multi-sort- name: Extract version
+          slug: pgerke/ngx-mat-table-multi-sort
+      - name: Extract version
         id: version-extraction
         run: echo "APP_VERSION=$(jq -r .version package.json)" >> "$GITHUB_OUTPUT"
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
