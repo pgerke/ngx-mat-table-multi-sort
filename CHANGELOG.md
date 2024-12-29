@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- [#19](https://github.com/pgerke/ngx-mat-table-multi-sort/issues/19): Publish to npmjs.org
 - [#18](https://github.com/pgerke/ngx-mat-table-multi-sort/issues/18): Migrate to managed SonarQube instance
 - [#9](https://github.com/pgerke/ngx-mat-table-multi-sort/issues/9): Implement multi-sort components
 - [#8](https://github.com/pgerke/ngx-mat-table-multi-sort/issues/8): Deploy demo application to GitHub Pages.
