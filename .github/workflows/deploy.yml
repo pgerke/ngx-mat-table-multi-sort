@@ -34,8 +34,6 @@ jobs:
       contents: read
       id-token: write
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -44,6 +42,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: library
+          path: "./dist/lib"
       - name: Publish to npm
         run: npm publish ./dist/lib --provenance --access public
         env:
