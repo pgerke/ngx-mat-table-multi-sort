@@ -49,7 +49,7 @@ Please refer to the [changelog](./CHANGELOG.md) document or the [release notes](
 
 ## I found a bug, what do I do?
 
-We are happy to hear any feedback regarding the library or it's implementation, be it critizism, praise or rants. Please create a [GitHub issue](https://github.com/pgerke/ngx-mat-table-multi-sort/issues) if you would like to contact us.
+We are happy to hear any feedback regarding the library or its implementation, be it critizism, praise or rants. Please create a [GitHub issue](https://github.com/pgerke/ngx-mat-table-multi-sort/issues) if you would like to contact us.
 
 We would especially appreciate, if you could report any issues you encounter while using the library. Issues we know about, we can probably fix.
 
