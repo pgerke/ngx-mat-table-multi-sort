@@ -12,6 +12,7 @@ import {
   host: {
     class: "mat-sort",
   },
+  standalone: true,
 })
 export class MatMultiSortDirective extends MatSort {
   readonly _sorts: Sort[] = [];

@@ -11,6 +11,7 @@ import { MatMultiSortDirective } from "../mat-multi-sort.directive";
   templateUrl: "./mat-multi-sort-header.component.html",
   styleUrl: "./mat-multi-sort-header.component.scss",
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
 })
 export class MatMultiSortHeaderComponent
   extends MatSortHeader
@@ -41,6 +42,14 @@ export class MatMultiSortHeaderComponent
     return this._sort.getSortIndex(this.id);
   }
 
+  override _getAriaSortAttribute(): "none" | "ascending" | "descending" {
+    if (!this._isSorted()) {
+      return "none";
+    }
+
+    return this.sortDirection === "asc" ? "ascending" : "descending";
+  }
+
   override _isSorted(): boolean {
     return this.sortIndex > -1;
   }
@@ -48,11 +57,12 @@ export class MatMultiSortHeaderComponent
   override _toggleOnInteraction(): void {
     if (this._isDisabled()) return;
 
-    const wasSorted = this._isSorted();
-    const prevDirection = this.sortDirection;
-    this._sort.sort(this);
-    this._recentlyCleared.set(
-      wasSorted && !this._isSorted() ? prevDirection : null
-    );
+    super._toggleOnInteraction();
+  }
+
+  override _updateArrowDirection(): void {
+    this._arrowDirection = this._isSorted()
+      ? this.sortDirection
+      : this.start || this._sort.start;
   }
 }

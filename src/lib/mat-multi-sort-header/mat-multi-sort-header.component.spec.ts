@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatSort } from "@angular/material/sort";
+import { MatSort, SortDirection } from "@angular/material/sort";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { MatMultiSortDirective } from "../mat-multi-sort.directive";
 import { MatMultiSortHeaderComponent } from "./mat-multi-sort-header.component";
 
@@ -10,7 +11,7 @@ describe("MatMultiSortHeaderComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatMultiSortHeaderComponent],
+      imports: [NoopAnimationsModule, MatMultiSortHeaderComponent],
       providers: [
         MatMultiSortDirective,
         { provide: MatSort, useExisting: MatMultiSortDirective },
@@ -29,6 +30,7 @@ describe("MatMultiSortHeaderComponent", () => {
   });
 
   it("should not trigger sort when the header is disabled", () => {
+    sort.disabled = false;
     component.disabled = true;
     const spy = spyOn(sort, "sort");
     component._toggleOnInteraction();
@@ -43,37 +45,30 @@ describe("MatMultiSortHeaderComponent", () => {
     expect(spy).not.toHaveBeenCalled();
   });
 
-  it("should set recentlyCleared to null when the column was not previously sorted", () => {
+  it("should trigger sort when the header is enabled", () => {
+    sort.disabled = false;
     component.disabled = false;
-    spyOn(component, "_isSorted").and.returnValue(false);
-    const sortSpy = spyOn(sort, "sort");
-    const recentlyClearedSpy = spyOn(component["_recentlyCleared"], "set");
+    const spy = spyOn(sort, "sort");
     component._toggleOnInteraction();
-    expect(sortSpy).toHaveBeenCalled();
-    expect(recentlyClearedSpy).toHaveBeenCalledWith(null);
+    expect(spy).toHaveBeenCalled();
   });
 
-  it("should set recentlyCleared to null when the column is now sorted", () => {
-    component.disabled = false;
-    spyOn(component, "_isSorted").and.returnValue(true);
-    const sortSpy = spyOn(sort, "sort");
-    const recentlyClearedSpy = spyOn(component["_recentlyCleared"], "set");
-    component._toggleOnInteraction();
-    expect(sortSpy).toHaveBeenCalled();
-    expect(recentlyClearedSpy).toHaveBeenCalledWith(null);
-  });
-
-  it("should set recentlyCleared to the previous sort direction when the column is no longer sorted", () => {
-    component.disabled = false;
-    let callCount = 0;
-    spyOn(component, "_isSorted").and.callFake(() => {
-      return ++callCount % 2 === 1;
+  [
+    { direction: "asc", aria: "ascending" },
+    { direction: "desc", aria: "descending" },
+  ].forEach((test) => {
+    it(`should behave correctly when sorted ${test.aria}ly`, () => {
+      component.id = "test";
+      sort._sorts.push({
+        active: "test",
+        direction: test.direction as SortDirection,
+      });
+      component._updateArrowDirection();
+      expect(component._arrowDirection).toBe(test.direction);
+      expect(component.sortDirection).toBe(test.direction);
+      expect(component.sortIndex).toBe(0);
+      expect(component._isSorted()).toBe(true);
+      expect(component._getAriaSortAttribute()).toBe(test.aria);
     });
-    spyOnProperty(component, "sortDirection").and.returnValue("asc");
-    const sortSpy = spyOn(sort, "sort");
-    const recentlyClearedSpy = spyOn(component["_recentlyCleared"], "set");
-    component._toggleOnInteraction();
-    expect(sortSpy).toHaveBeenCalled();
-    expect(recentlyClearedSpy).toHaveBeenCalledWith("asc");
   });
 });

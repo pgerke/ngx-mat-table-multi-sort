@@ -23,6 +23,7 @@ const APP_VERSION = "DEBUG";
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
+  standalone: true,
 })
 /**
  * The main component for the ngx-mat-table-multi-sort demo application.
