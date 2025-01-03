@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+      - v17
+      - v18
 
 jobs:
   ci:
@@ -13,6 +15,7 @@ jobs:
 
   deploy_demo:
     name: Deploy Demo
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: [ci]
     permissions:
@@ -46,6 +49,11 @@ jobs:
           name: library
           path: "./dist/lib"
       - name: Publish to npm
-        run: npm publish ./dist/lib --provenance --access public
+        run: |
+          if [[ "${{ github.ref_name }}" == "main" ]]; then
+            npm publish ./dist/lib --provenance --access public --tag latest;
+          else
+            npm publish ./dist/lib --provenance --access public --tag ${{ github.ref_name }}-lts;
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
