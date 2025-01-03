@@ -53,7 +53,7 @@ jobs:
           if [[ "${{ github.ref_name }}" == "main" ]]; then
             npm publish ./dist/lib --provenance --access public --tag latest;
           else
-            npm publish ./dist/lib --provenance --access public --tag ${{ github.ref_name }};
+            npm publish ./dist/lib --provenance --access public --tag ${{ github.ref_name }}-lts;
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
