@@ -54,5 +54,6 @@ jobs:
             npm publish ./dist/lib --provenance --access public --tag latest;
           else
             npm publish ./dist/lib --provenance --access public --tag ${{ github.ref_name }};
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
