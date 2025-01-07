@@ -6,11 +6,11 @@ describe("MatMultiSortDirective", () => {
 
   beforeEach(() => {
     directive = new MatMultiSortDirective();
-    directive._sorts.push(
+    directive._sorts.set([
       { active: "col1", direction: "asc" },
       { active: "col2", direction: "desc" },
-      { active: "col3", direction: "asc" }
-    );
+      { active: "col3", direction: "asc" },
+    ]);
   });
 
   it("should create an instance", () => {
@@ -36,7 +36,7 @@ describe("MatMultiSortDirective", () => {
   it("should append a new column to the list of sort columns with the specified direction", () => {
     const spy = spyOn(directive.sortChange, "emit");
     directive.sort({ id: "test", start: "desc" } as MatSortable);
-    expect(directive._sorts).toEqual([
+    expect(directive._sorts()).toEqual([
       { active: "col1", direction: "asc" },
       { active: "col2", direction: "desc" },
       { active: "col3", direction: "asc" },
@@ -50,7 +50,7 @@ describe("MatMultiSortDirective", () => {
   it("should append a new column to the list of sort columns with the default sort direction unless otherwise specified", () => {
     const spy = spyOn(directive.sortChange, "emit");
     directive.sort({ id: "test" } as MatSortable);
-    expect(directive._sorts).toEqual([
+    expect(directive._sorts()).toEqual([
       { active: "col1", direction: "asc" },
       { active: "col2", direction: "desc" },
       { active: "col3", direction: "asc" },
@@ -64,7 +64,7 @@ describe("MatMultiSortDirective", () => {
   it("should update the direction of an existing column", () => {
     const spy = spyOn(directive.sortChange, "emit");
     directive.sort({ id: "col1" } as MatSortable);
-    expect(directive._sorts).toEqual([
+    expect(directive._sorts()).toEqual([
       { active: "col1", direction: "desc" },
       { active: "col2", direction: "desc" },
       { active: "col3", direction: "asc" },
@@ -78,7 +78,7 @@ describe("MatMultiSortDirective", () => {
     directive.disableClear = false;
     const spy = spyOn(directive.sortChange, "emit");
     directive.sort({ id: "col2" } as MatSortable);
-    expect(directive._sorts).toEqual([
+    expect(directive._sorts()).toEqual([
       { active: "col1", direction: "asc" },
       { active: "col3", direction: "asc" },
     ]);

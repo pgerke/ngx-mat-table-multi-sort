@@ -1,4 +1,5 @@
 <h1 class="title">{{ title }}</h1>
+<mat-multi-sort-control [sort]="sort"></mat-multi-sort-control>
 <table mat-table [dataSource]="dataSource" matMultiSort>
   <!-- ID Column -->
   <ng-container matColumnDef="id">

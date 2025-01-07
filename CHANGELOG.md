@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- [#28](https://github.com/pgerke/ngx-mat-table-multi-sort/issues/28): Add multi-sort control component
 - [#4](https://github.com/pgerke/ngx-mat-table-multi-sort/issues/4): Backport workflow and documentation changes from Angular 18 branch
 - [#20](https://github.com/pgerke/ngx-mat-table-multi-sort/issues/20): Expanded the documentation
 

@@ -1,7 +1,7 @@
 {
   "name": "ngx-mat-table-multi-sort",
-  "version": "19.0.0",
-  "preview": false,
+  "version": "19.1.0-pre.0",
+  "preview": true,
   "scripts": {
     "ng": "ng",
     "clean": "rimraf dist coverage",

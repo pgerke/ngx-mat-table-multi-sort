@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ViewChild } from "@angular/core";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatTableModule } from "@angular/material/table";
 import {
+  MatMultiSortControlComponent,
   MatMultiSortDirective,
   MatMultiSortHeaderComponent,
   MatMultiSortTableDataSource,
@@ -19,6 +20,7 @@ const APP_VERSION = "DEBUG";
     MatTableModule,
     MatPaginatorModule,
     MatMultiSortDirective,
+    MatMultiSortControlComponent,
     MatMultiSortHeaderComponent,
   ],
   templateUrl: "./app.component.html",
@@ -83,6 +85,11 @@ export class AppComponent implements AfterViewInit {
   readonly version = APP_VERSION;
 
   ngAfterViewInit(): void {
+    this.sort._sorts.set([
+      { active: "active", direction: "desc" },
+      { active: "department", direction: "asc" },
+      { active: "score", direction: "desc" },
+    ]);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }

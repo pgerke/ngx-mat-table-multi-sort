@@ -21,7 +21,25 @@ An Angular library that adds multi-sort capability to the Angular Material table
 **Prerequisite:** You have created an application using a supported version of Angular and Angular Material
 
 1. In your Angular application run `npm install ngx-mat-table-multi-sort` to add the library to your dependencies
-1. In the template, replace the `matSort` directive with the `matMultiSort` directive.
+1. As this library is using Material, add the following to the `head` element of your `index.html`:
+
+```html
+<link
+  href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  rel="stylesheet" />
+```
+
+Alternatively, you can also add the following to your `angular.json`:
+
+```json
+"styles": [
+  ...
+  "https://fonts.googleapis.com/icon?family=Material+Icons",
+  ...
+]
+```
+
+3. In the template, replace the `matSort` directive with the `matMultiSort` directive.
 1. Also replace the `mat-sort-header` directive with the `mat-multi-sort-header` directive in the column definitions.
 1. In the component definition use `MatMultiSortTableDataSource<T>` as your datasource type instead of `MatTableDataSource<T>`.
 1. Also change the type of the sorter from `MatSort` to `MatMultiSortDirective`
