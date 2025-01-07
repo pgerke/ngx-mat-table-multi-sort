@@ -1,4 +1,9 @@
-import { AfterViewInit, Component, ViewChild } from "@angular/core";
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ViewChild,
+} from "@angular/core";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatTableModule } from "@angular/material/table";
 import {
@@ -84,6 +89,8 @@ export class AppComponent implements AfterViewInit {
    */
   readonly version = APP_VERSION;
 
+  constructor(private readonly cdr: ChangeDetectorRef) {}
+
   ngAfterViewInit(): void {
     this.sort._sorts.set([
       { active: "active", direction: "desc" },
@@ -92,5 +99,6 @@ export class AppComponent implements AfterViewInit {
     ]);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.cdr.detectChanges();
   }
 }
