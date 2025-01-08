@@ -2,6 +2,12 @@
   cdkDropList
   [cdkDropListOrientation]="orientation"
   (cdkDropListDropped)="onDrop($event)">
+  <mat-chip
+    [disabled]="!sorts.length"
+    [highlighted]="true"
+    (click)="onClearClick()"
+    ><mat-icon matChipAvatar fontIcon="clear_all"></mat-icon>Clear All</mat-chip
+  >
   @for (column of sorts; track $index) {
     <mat-chip
       class="mat-sort-header"

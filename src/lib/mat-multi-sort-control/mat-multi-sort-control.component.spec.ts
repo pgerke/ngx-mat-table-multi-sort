@@ -86,4 +86,20 @@ describe("MatMultiSortControlComponent", () => {
 
     expect(() => component.onDrop(event)).not.toThrow();
   });
+
+  it("should call clearSorting on sort when onClearClick is called", () => {
+    const sortDirectiveSpy = jasmine.createSpyObj("MatMultiSortDirective", [
+      "clearSorting",
+    ]);
+    component.sort = sortDirectiveSpy;
+    component.onClearClick();
+
+    expect(sortDirectiveSpy.clearSorting).toHaveBeenCalled();
+  });
+
+  it("should not throw an error if sort is undefined when onClearClick is called", () => {
+    component.sort = undefined;
+
+    expect(() => component.onClearClick()).not.toThrow();
+  });
 });

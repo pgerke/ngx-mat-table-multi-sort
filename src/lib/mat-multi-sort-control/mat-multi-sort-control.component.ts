@@ -73,6 +73,16 @@ export class MatMultiSortControlComponent {
   }
 
   /**
+   * Clears the current sorting applied to the table.
+   *
+   * @param id - The identifier of the sort level to be removed.
+   * @returns void
+   */
+  onClearClick(): void {
+    this.sort?.clearSorting();
+  }
+
+  /**
    * Handles the drop event for drag-and-drop sorting.
    * Reorders the sort levels based on the previous and current indices.
    *

@@ -178,4 +178,13 @@ describe("MatMultiSortDirective", () => {
     expect(directive.direction).toBe("asc");
     expect(spy).toHaveBeenCalledWith({ active: "col1", direction: "asc" });
   });
+
+  it("should clear the current sorting state", () => {
+    const spy = spyOn(directive.sortChange, "emit");
+    directive.clearSorting();
+    expect(directive.active).toBe("");
+    expect(directive.direction).toBe("");
+    expect(directive._sorts()).toEqual([]);
+    expect(spy).toHaveBeenCalled();
+  });
 });

@@ -29,7 +29,7 @@ export class MatMultiSortDirective extends MatSort {
    * @param id - The ID of the column to get the sort direction for.
    * @returns The sort direction ('asc', 'desc', or '') for the specified column ID.
    */
-  getSortDirection(id: string): SortDirection {
+  public getSortDirection(id: string): SortDirection {
     const sort = this._sorts().find((e) => e.active === id);
     return sort ? sort.direction : "";
   }
@@ -73,7 +73,7 @@ export class MatMultiSortDirective extends MatSort {
    * @param id - The identifier of the sort level to be removed.
    * @returns void
    */
-  removeSortLevel(id: string): void {
+  public removeSortLevel(id: string): void {
     const index = this.getSortIndex(id);
     if (index < 0) return;
 
@@ -88,7 +88,7 @@ export class MatMultiSortDirective extends MatSort {
    * @param previousIndex - The index of the item to be moved.
    * @param currentIndex - The index to which the item should be moved.
    */
-  reorderSortLevel(previousIndex: number, currentIndex: number): void {
+  public reorderSortLevel(previousIndex: number, currentIndex: number): void {
     if (previousIndex === currentIndex) return;
 
     moveItemInArray(this._sorts(), previousIndex, currentIndex);
@@ -101,7 +101,7 @@ export class MatMultiSortDirective extends MatSort {
    * @param id - The unique identifier of the column to toggle the sort direction for.
    * @returns void
    */
-  toggleSortDirection(id: string): void {
+  public toggleSortDirection(id: string): void {
     const index = this.getSortIndex(id);
     if (index < 0) return;
 
@@ -114,5 +114,18 @@ export class MatMultiSortDirective extends MatSort {
     } as MatSortable);
     this._sorts()[index].direction = this.direction;
     this.sortChange.emit({ active: this.active, direction: this.direction });
+  }
+
+  /**
+   * Clears the current sorting state.
+   *
+   * @param id - The unique identifier of the column to toggle the sort direction for.
+   * @returns void
+   */
+  public clearSorting(): void {
+    this.active = "";
+    this.direction = "";
+    this._sorts.set([]);
+    this.sortChange.emit();
   }
 }
