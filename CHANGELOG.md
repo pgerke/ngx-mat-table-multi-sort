@@ -5,10 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [19.1.0](https://github.com/pgerke/ngx-mat-table-multi-sort/releases/tag/19.1.0) - 08.01.2025
 
 ### Added
 
+- [#31](https://github.com/pgerke/ngx-mat-table-multi-sort/issues/31): Add an option to clear all sort criteria
 - [#28](https://github.com/pgerke/ngx-mat-table-multi-sort/issues/28): Add multi-sort control component
 - [#4](https://github.com/pgerke/ngx-mat-table-multi-sort/issues/4): Backport workflow and documentation changes from Angular 18 branch
 - [#20](https://github.com/pgerke/ngx-mat-table-multi-sort/issues/20): Expanded the documentation
