@@ -86,4 +86,96 @@ describe("MatMultiSortDirective", () => {
     expect(directive.direction).toBe("");
     expect(spy).toHaveBeenCalledWith({ active: "col2", direction: "" });
   });
+
+  it("should remove a sort level by its identifier", () => {
+    const spy = spyOn(directive.sortChange, "emit");
+    directive.removeSortLevel("col2");
+    expect(directive._sorts()).toEqual([
+      { active: "col1", direction: "asc" },
+      { active: "col3", direction: "asc" },
+    ]);
+    expect(spy).toHaveBeenCalledWith();
+  });
+
+  it("should not change the sort levels if the identifier is not found", () => {
+    const spy = spyOn(directive.sortChange, "emit");
+    directive.removeSortLevel("unknown");
+    expect(directive._sorts()).toEqual([
+      { active: "col1", direction: "asc" },
+      { active: "col2", direction: "desc" },
+      { active: "col3", direction: "asc" },
+    ]);
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it("should reorder the sort levels when previousIndex and currentIndex are different", () => {
+    const spy = spyOn(directive.sortChange, "emit");
+    directive.reorderSortLevel(0, 2);
+    expect(directive._sorts()).toEqual([
+      { active: "col2", direction: "desc" },
+      { active: "col3", direction: "asc" },
+      { active: "col1", direction: "asc" },
+    ]);
+    expect(spy).toHaveBeenCalledWith({ active: "col1", direction: "asc" });
+  });
+
+  it("should not reorder the sort levels when previousIndex and currentIndex are the same", () => {
+    const spy = spyOn(directive.sortChange, "emit");
+    directive.reorderSortLevel(1, 1);
+    expect(directive._sorts()).toEqual([
+      { active: "col1", direction: "asc" },
+      { active: "col2", direction: "desc" },
+      { active: "col3", direction: "asc" },
+    ]);
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it("should toggle the sort direction for an existing column", () => {
+    const spy = spyOn(directive.sortChange, "emit");
+    directive.toggleSortDirection("col1");
+    expect(directive._sorts()).toEqual([
+      { active: "col1", direction: "desc" },
+      { active: "col2", direction: "desc" },
+      { active: "col3", direction: "asc" },
+    ]);
+    expect(directive.active).toBe("col1");
+    expect(directive.direction).toBe("desc");
+    expect(spy).toHaveBeenCalledWith({ active: "col1", direction: "desc" });
+  });
+
+  it("should not change the sort direction for a column that is not sorted", () => {
+    const spy = spyOn(directive.sortChange, "emit");
+    directive.toggleSortDirection("unknown");
+    expect(directive._sorts()).toEqual([
+      { active: "col1", direction: "asc" },
+      { active: "col2", direction: "desc" },
+      { active: "col3", direction: "asc" },
+    ]);
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it("should cycle through sort directions for an existing column", () => {
+    directive.disableClear = false;
+    const spy = spyOn(directive.sortChange, "emit");
+
+    directive.toggleSortDirection("col1");
+    expect(directive._sorts()).toEqual([
+      { active: "col1", direction: "desc" },
+      { active: "col2", direction: "desc" },
+      { active: "col3", direction: "asc" },
+    ]);
+    expect(directive.active).toBe("col1");
+    expect(directive.direction).toBe("desc");
+    expect(spy).toHaveBeenCalledWith({ active: "col1", direction: "desc" });
+
+    directive.toggleSortDirection("col1");
+    expect(directive._sorts()).toEqual([
+      { active: "col1", direction: "asc" },
+      { active: "col2", direction: "desc" },
+      { active: "col3", direction: "asc" },
+    ]);
+    expect(directive.active).toBe("col1");
+    expect(directive.direction).toBe("asc");
+    expect(spy).toHaveBeenCalledWith({ active: "col1", direction: "asc" });
+  });
 });
