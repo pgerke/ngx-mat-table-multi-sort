@@ -4,6 +4,8 @@ import {
   Component,
   ViewChild,
 } from "@angular/core";
+import { MatChipsModule } from "@angular/material/chips";
+import { MatIconModule } from "@angular/material/icon";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatTableModule } from "@angular/material/table";
 import {
@@ -11,6 +13,7 @@ import {
   MatMultiSortDirective,
   MatMultiSortHeaderComponent,
   MatMultiSortTableDataSource,
+  MatTableColumnConfigTriggerDirective,
 } from "../../../../src/public-api";
 import { MEMBER_DATA, MemberInformation } from "./data";
 
@@ -22,11 +25,14 @@ const APP_VERSION = "DEBUG";
 @Component({
   selector: "app-root",
   imports: [
+    MatChipsModule,
+    MatIconModule,
     MatTableModule,
     MatPaginatorModule,
     MatMultiSortDirective,
     MatMultiSortControlComponent,
     MatMultiSortHeaderComponent,
+    MatTableColumnConfigTriggerDirective,
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
