@@ -2,6 +2,7 @@
  * Public API Surface of lib
  */
 
+export * from "./lib/mat-table-column-config";
 export * from "./lib/mat-multi-sort.directive";
 export * from "./lib/mat-table-column-config-trigger.directive";
 export * from "./lib/mat-multi-sort-table-data-source";

@@ -1,21 +1,30 @@
-import { Overlay, OverlayRef } from "@angular/cdk/overlay";
+import { Overlay } from "@angular/cdk/overlay";
 import { ComponentPortal } from "@angular/cdk/portal";
 import {
-  ComponentRef,
   Directive,
   ElementRef,
   HostListener,
+  Injector,
+  Input,
   ViewContainerRef,
 } from "@angular/core";
-import { MatTableColumnConfigComponent } from "../public-api";
+import { TABLE_COLUMNS, TableColumn } from "./mat-table-column-config";
+import { MatTableColumnConfigComponent } from "./mat-table-column-config/mat-table-column-config.component";
 
 @Directive({
   selector: "[matTableColumnConfigTrigger]",
   exportAs: "matTableColumnConfigTrigger",
 })
-export class MatTableColumnConfigTriggerDirective {
-  private componentRef?: ComponentRef<MatTableColumnConfigComponent>;
-  private overlayRef?: OverlayRef;
+export class MatTableColumnConfigTriggerDirective<T> {
+  /**
+   * Input property that accepts an array of table column configurations.
+   * The alias for this input property is "matTableColumnConfigTrigger".
+   * This property is required.
+   *
+   * @type {TableColumn<T>[]} columns - The array of table column configurations.
+   */
+  @Input({ alias: "matTableColumnConfigTrigger", required: true })
+  columns!: TableColumn<T>[];
 
   constructor(
     private readonly elementRef: ElementRef,
@@ -24,9 +33,6 @@ export class MatTableColumnConfigTriggerDirective {
   ) {}
   @HostListener("click")
   onClick(): void {
-    // If the component or overlay is already open, do nothing
-    if (this.componentRef || this.overlayRef) return;
-
     // Create the component portal
     const positionStrategy = this.overlay
       .position()
@@ -43,22 +49,24 @@ export class MatTableColumnConfigTriggerDirective {
           overlayY: "top",
         },
       ]);
-    this.overlayRef = this.overlay.create({
+    const overlayRef = this.overlay.create({
       positionStrategy,
       hasBackdrop: true,
       backdropClass: "cdk-overlay-transparent-backdrop",
     });
+    const injector = Injector.create({
+      providers: [{ provide: TABLE_COLUMNS, useValue: this.columns }],
+      parent: this.viewContainerRef.injector,
+    });
     const portal = new ComponentPortal(
       MatTableColumnConfigComponent,
-      this.viewContainerRef
+      this.viewContainerRef,
+      injector
     );
-    this.overlayRef.attach(portal);
-    this.overlayRef.backdropClick().subscribe(() => {
-      this.overlayRef!.detach();
-      this.overlayRef!.dispose();
-      this.overlayRef = undefined;
-      this.componentRef?.destroy();
-      this.componentRef = undefined;
+    overlayRef.attach(portal);
+    overlayRef.backdropClick().subscribe(() => {
+      overlayRef.detach();
+      overlayRef.dispose();
     });
   }
 }

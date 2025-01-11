@@ -14,6 +14,7 @@ import {
   MatMultiSortHeaderComponent,
   MatMultiSortTableDataSource,
   MatTableColumnConfigTriggerDirective,
+  TableColumn,
 } from "../../../../src/public-api";
 import { MEMBER_DATA, MemberInformation } from "./data";
 
@@ -45,6 +46,34 @@ const APP_VERSION = "DEBUG";
  */
 export class AppComponent implements AfterViewInit {
   /**
+   * Defines the columns for the table displaying member information.
+   * Each column is represented by an object containing the following properties:
+   * - `id`: A unique identifier for the column.
+   * - `label`: The display name of the column.
+   * - `visible`: A boolean indicating whether the column should be visible.
+   *
+   * The columns are:
+   * - `id`: ID of the member (hidden by default).
+   * - `name`: Name of the member.
+   * - `age`: Age of the member.
+   * - `active`: Indicates if the member is active.
+   * - `joinDate`: The date the member joined.
+   * - `score`: The score of the member.
+   * - `department`: The department the member belongs to.
+   * - `comment`: Additional comments about the member.
+   */
+  readonly columns: TableColumn<MemberInformation>[] = [
+    { id: "id", label: "ID", visible: false },
+    { id: "name", label: "Name", visible: true },
+    { id: "age", label: "Age", visible: true },
+    { id: "active", label: "Active", visible: true },
+    { id: "joinDate", label: "Join Date", visible: true },
+    { id: "score", label: "Score", visible: true },
+    { id: "department", label: "Department", visible: true },
+    { id: "comment", label: "Comment", visible: true },
+  ];
+
+  /**
    * The current year based on the system's date.
    * This value is set when the component is initialized.
    */
@@ -67,9 +96,11 @@ export class AppComponent implements AfterViewInit {
    * Each string corresponds to a column identifier.
    *
    */
-  readonly displayedColumns: (keyof MemberInformation)[] = Object.keys(
-    MEMBER_DATA[0]
-  ) as (keyof MemberInformation)[];
+  get displayedColumns(): (keyof MemberInformation)[] {
+    return this.columns
+      .filter((column) => column.visible)
+      .map((column) => column.id);
+  }
 
   /**
    * Reference to the MatPaginator component, used to control pagination in the table.

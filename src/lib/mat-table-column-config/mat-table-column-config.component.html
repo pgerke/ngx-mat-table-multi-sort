@@ -1,17 +1,16 @@
 <div
   cdkDropList
   class="table-column-list mat-elevation-z4"
-  cdkDropListOrientation="vertical">
-  <div cdkDrag class="table-column">
-    <mat-icon cdkDragHandle>drag_indicator</mat-icon>
-    <mat-checkbox [checked]="true">Test 1</mat-checkbox>
-  </div>
-  <div cdkDrag class="table-column">
-    <mat-icon cdkDragHandle>drag_indicator</mat-icon>
-    <mat-checkbox [checked]="true">Test 2</mat-checkbox>
-  </div>
-  <div cdkDrag class="table-column">
-    <mat-icon cdkDragHandle>drag_indicator</mat-icon>
-    <mat-checkbox [checked]="true">Test 3</mat-checkbox>
-  </div>
+  cdkDropListOrientation="vertical"
+  (cdkDropListDropped)="onColumnDropped($event)">
+  @for (column of columns; track $index) {
+    <div cdkDrag class="table-column">
+      <mat-icon cdkDragHandle>drag_indicator</mat-icon>
+      <mat-checkbox
+        [checked]="column.visible"
+        (change)="onColumnVisibilityChanged(column.id)"
+        >{{ column.label }}</mat-checkbox
+      >
+    </div>
+  }
 </div>
