@@ -1,6 +1,7 @@
 import { Overlay } from "@angular/cdk/overlay";
 import { ComponentPortal } from "@angular/cdk/portal";
 import {
+  ComponentRef,
   Directive,
   ElementRef,
   HostListener,
@@ -16,6 +17,8 @@ import { MatTableColumnConfigComponent } from "./mat-table-column-config/mat-tab
   exportAs: "matTableColumnConfigTrigger",
 })
 export class MatTableColumnConfigTriggerDirective<T> {
+  private _componentRef: ComponentRef<MatTableColumnConfigComponent<T>> | null =
+    null;
   /**
    * Input property that accepts an array of table column configurations.
    * The alias for this input property is "matTableColumnConfigTrigger".
@@ -25,6 +28,16 @@ export class MatTableColumnConfigTriggerDirective<T> {
    */
   @Input({ alias: "matTableColumnConfigTrigger", required: true })
   columns!: TableColumn<T>[];
+
+  /**
+   * Gets the reference to the MatTableColumnConfigComponent.
+   *
+   * @returns {ComponentRef<MatTableColumnConfigComponent<T>> | null}
+   *          The reference to the MatTableColumnConfigComponent if it exists, otherwise null.
+   */
+  get componentRef(): ComponentRef<MatTableColumnConfigComponent<T>> | null {
+    return this._componentRef;
+  }
 
   constructor(
     private readonly elementRef: ElementRef,
@@ -59,14 +72,16 @@ export class MatTableColumnConfigTriggerDirective<T> {
       parent: this.viewContainerRef.injector,
     });
     const portal = new ComponentPortal(
-      MatTableColumnConfigComponent,
+      MatTableColumnConfigComponent<T>,
       this.viewContainerRef,
       injector
     );
-    overlayRef.attach(portal);
+    this._componentRef = overlayRef.attach(portal);
+
     overlayRef.backdropClick().subscribe(() => {
       overlayRef.detach();
       overlayRef.dispose();
+      this._componentRef = null;
     });
   }
 }
