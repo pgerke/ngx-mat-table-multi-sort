@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [19.2.1](https://github.com/pgerke/ngx-mat-table-multi-sort/releases/tag/19.2.1) - 14.01.2025
+
+### Changed
+
+- [#37](https://github.com/pgerke/ngx-mat-table-multi-sort/issues/37): Fix column reordering and visibility control styling
+
 ## [19.2.0](https://github.com/pgerke/ngx-mat-table-multi-sort/releases/tag/19.2.0) - 12.01.2025
 
 ### Added

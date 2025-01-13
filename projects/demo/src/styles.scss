@@ -1,9 +1,25 @@
+@use "@angular/material" as mat;
+
+html {
+  color-scheme: light dark;
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+}
+
 * {
   box-sizing: border-box;
 }
 
 html > * {
-  color: #000000de;
+  color: var(--mat-sys-on-surface, rgba(0, 0, 0, 0.87));
   font-family: "Roboto", Helvetica, Arial, sans-serif;
   font-size: 14px;
   -webkit-font-smoothing: antialiased;
