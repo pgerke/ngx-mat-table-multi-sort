@@ -3,9 +3,11 @@ import { Directive, signal, WritableSignal } from "@angular/core";
 import {
   MatSort,
   MatSortable,
+  MatSortDefaultOptions,
   Sort,
   SortDirection,
 } from "@angular/material/sort";
+import { MatTableConfigPersistenceService } from "./mat-table-config-persistence.service";
 
 @Directive({
   selector: "[matMultiSort]",
@@ -22,6 +24,13 @@ export class MatMultiSortDirective extends MatSort {
    * @readonly
    */
   readonly _sorts: WritableSignal<Sort[]> = signal([]);
+
+  constructor(
+    private readonly persistenceService: MatTableConfigPersistenceService,
+    _defaultOptions?: MatSortDefaultOptions | undefined
+  ) {
+    super(_defaultOptions);
+  }
 
   /**
    * Retrieves the sort direction for a given column ID.

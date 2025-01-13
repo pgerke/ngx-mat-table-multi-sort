@@ -2,6 +2,7 @@ import { NgIf } from "@angular/common";
 import { Component, inject, OnInit, ViewEncapsulation } from "@angular/core";
 import { MatSort, MatSortHeader, SortDirection } from "@angular/material/sort";
 import { MatMultiSortDirective } from "../mat-multi-sort.directive";
+import { MatTableConfigPersistenceService } from "../mat-table-config-persistence.service";
 
 @Component({
   selector: "[mat-multi-sort-header]", // eslint-disable-line @angular-eslint/component-selector
@@ -39,6 +40,13 @@ export class MatMultiSortHeaderComponent
    */
   get sortIndex(): number {
     return this._sort.getSortIndex(this.id);
+  }
+
+  constructor(
+    private readonly persistenceService: MatTableConfigPersistenceService,
+    ...args: unknown[]
+  ) {
+    super(...args);
   }
 
   override _isSorted(): boolean {
