@@ -113,7 +113,7 @@ describe("MatMultiSortTableDataSource", () => {
 
   it("should sort data", () => {
     const sort = new MatMultiSortDirective();
-    sort._sorts.push({ active: "id", direction: "desc" });
+    sort._sorts().push({ active: "id", direction: "desc" });
     dataSource.sort = sort;
     const sorted = dataSource.sortData(data, sort);
     expect(sorted.map((item) => item.id)).toEqual([3, 2, 1]);

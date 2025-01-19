@@ -70,9 +70,9 @@ export class MatMultiSortTableDataSource<
 
   private sortDataFunction(data: T[]): T[] {
     // Return the data if there is no sort
-    if (!this.sort?._sorts.length) return data;
+    if (!this.sort?._sorts().length) return data;
 
     // Sort the data:
-    return data.sort((a, b) => MultiCriterionSort(a, b, this.sort!._sorts));
+    return data.sort((a, b) => MultiCriterionSort(a, b, this.sort!._sorts()));
   }
 }

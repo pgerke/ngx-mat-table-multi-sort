@@ -1,0 +1,38 @@
+<mat-chip-listbox
+  cdkDropList
+  [cdkDropListOrientation]="orientation"
+  (cdkDropListDropped)="onDrop($event)">
+  <mat-chip
+    [disabled]="!sorts.length"
+    [highlighted]="true"
+    (click)="onClearClick()"
+    ><mat-icon matChipAvatar fontIcon="clear_all"></mat-icon>Clear All</mat-chip
+  >
+  @for (column of sorts; track $index) {
+    <mat-chip
+      class="mat-sort-header"
+      cdkDrag
+      (click)="onChipClick(column.active)"
+      (removed)="onChipRemoved(column.active)">
+      <div
+        matChipAvatar
+        class="mat-sort-header-container mat-sort-header-sorted mat-focus-indicator"
+        [class.mat-sort-header-descending]="column.direction === 'desc'"
+        [class.mat-sort-header-ascending]="column.direction === 'asc'"
+        [class.mat-sort-header-animations-disabled]="
+          _animationModule === 'NoopAnimations'
+        ">
+        <div class="mat-sort-header-arrow">
+          <svg viewBox="0 -960 960 960" focusable="false" aria-hidden="true">
+            <path
+              d="M440-240v-368L296-464l-56-56 240-240 240 240-56 56-144-144v368h-80Z" />
+          </svg>
+        </div>
+      </div>
+      {{ column.active }}
+      <button matChipRemove>
+        <mat-icon>clear</mat-icon>
+      </button>
+    </mat-chip>
+  }
+</mat-chip-listbox>
