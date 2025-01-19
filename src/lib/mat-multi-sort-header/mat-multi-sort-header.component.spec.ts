@@ -59,7 +59,7 @@ describe("MatMultiSortHeaderComponent", () => {
   ].forEach((test) => {
     it(`should behave correctly when sorted ${test.aria}ly`, () => {
       component.id = "test";
-      sort._sorts.push({
+      sort._sorts().push({
         active: "test",
         direction: test.direction as SortDirection,
       });
