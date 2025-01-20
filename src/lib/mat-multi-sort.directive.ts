@@ -1,5 +1,5 @@
 import { moveItemInArray } from "@angular/cdk/drag-drop";
-import { Directive, signal, WritableSignal } from "@angular/core";
+import { Directive, effect, signal, WritableSignal } from "@angular/core";
 import {
   MatSort,
   MatSortable,
@@ -23,6 +23,17 @@ export class MatMultiSortDirective extends MatSort {
    * @readonly
    */
   readonly _sorts: WritableSignal<Sort[]> = signal([]);
+
+  constructor() {
+    super();
+    effect(() => {
+      const length = this._sorts().length;
+      this.sortChange.emit({
+        active: length ? this._sorts()[length - 1].active : "",
+        direction: length ? this._sorts()[length - 1].direction : "",
+      });
+    });
+  }
 
   /**
    * Retrieves the sort direction for a given column ID.

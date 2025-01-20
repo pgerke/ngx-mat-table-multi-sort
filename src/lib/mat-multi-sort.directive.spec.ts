@@ -1,16 +1,32 @@
+import { Component } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatSortable } from "@angular/material/sort";
 import { MatMultiSortDirective } from "./mat-multi-sort.directive";
 
+@Component({
+  selector: "mat-multi-sort-test",
+  standalone: true,
+})
+class TestComponent extends MatMultiSortDirective {}
+
 describe("MatMultiSortDirective", () => {
+  let fixture: ComponentFixture<TestComponent>;
   let directive: MatMultiSortDirective;
 
-  beforeEach(() => {
-    directive = new MatMultiSortDirective();
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [TestComponent, MatMultiSortDirective],
+      providers: [],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(TestComponent);
+    directive = fixture.componentInstance;
     directive._sorts.set([
       { active: "col1", direction: "asc" },
       { active: "col2", direction: "desc" },
       { active: "col3", direction: "asc" },
     ]);
+    fixture.detectChanges();
   });
 
   it("should create an instance", () => {
