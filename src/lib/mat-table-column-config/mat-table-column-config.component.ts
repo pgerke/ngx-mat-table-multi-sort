@@ -14,6 +14,7 @@ import { TABLE_COLUMNS, TableColumn } from "../mat-table-column-config";
   imports: [CdkDropList, CdkDrag, MatCheckboxModule, MatIconModule],
   templateUrl: "./mat-table-column-config.component.html",
   styleUrl: "./mat-table-column-config.component.scss",
+  standalone: true,
 })
 export class MatTableColumnConfigComponent<T> {
   constructor(@Inject(TABLE_COLUMNS) readonly columns: TableColumn<T>[]) {}

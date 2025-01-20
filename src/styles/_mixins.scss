@@ -1,0 +1,17 @@
+@use "./variables" as var;
+
+@mixin cdk-drag {
+  .cdk-drag-placeholder {
+    opacity: 0;
+  }
+
+  .cdk-drag-animating {
+    transition: var.$drag-animating-transition;
+  }
+
+  .cdk-drag-preview {
+    box-sizing: border-box;
+    box-shadow: var.$box-shadow;
+    overflow: hidden;
+  }
+}

@@ -15,6 +15,7 @@ import { MatTableColumnConfigComponent } from "./mat-table-column-config/mat-tab
 @Directive({
   selector: "[matTableColumnConfigTrigger]",
   exportAs: "matTableColumnConfigTrigger",
+  standalone: true,
 })
 export class MatTableColumnConfigTriggerDirective<T> {
   private _componentRef: ComponentRef<MatTableColumnConfigComponent<T>> | null =
