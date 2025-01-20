@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- [#30](https://github.com/pgerke/ngx-mat-table-multi-sort/issues/30): Allow column reordering and visibility control
 - [#31](https://github.com/pgerke/ngx-mat-table-multi-sort/issues/31): Add an option to clear all sort criteria
 - [#28](https://github.com/pgerke/ngx-mat-table-multi-sort/issues/28): Add multi-sort control component
 

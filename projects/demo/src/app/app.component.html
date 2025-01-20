@@ -1,101 +1,27 @@
 <h1 class="title">{{ title }}</h1>
-<mat-multi-sort-control [sort]="sort"></mat-multi-sort-control>
-<table mat-table [dataSource]="dataSource" matMultiSort>
-  <!-- ID Column -->
-  <ng-container matColumnDef="id">
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      mat-multi-sort-header
-      sortActionDescription="Sort by ID">
-      ID
-    </th>
-    <td mat-cell *matCellDef="let element">{{ element.id }}</td>
-  </ng-container>
-
-  <!-- Name Column -->
-  <ng-container matColumnDef="name">
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      mat-multi-sort-header
-      sortActionDescription="Sort by name">
-      Name
-    </th>
-    <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-  </ng-container>
-
-  <!-- Age Column -->
-  <ng-container matColumnDef="age">
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      mat-multi-sort-header
-      sortActionDescription="Sort by age">
-      Age
-    </th>
-    <td mat-cell *matCellDef="let element">{{ element.age }}</td>
-  </ng-container>
-
-  <!-- Active Column -->
-  <ng-container matColumnDef="active">
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      mat-multi-sort-header
-      sortActionDescription="Sort by active">
-      Active
-    </th>
-    <td mat-cell *matCellDef="let element">{{ element.active }}</td>
-  </ng-container>
-
-  <!-- Join Date Column -->
-  <ng-container matColumnDef="joinDate">
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      mat-multi-sort-header
-      sortActionDescription="Sort by join date">
-      Join Date
-    </th>
-    <td mat-cell *matCellDef="let element">{{ element.joinDate }}</td>
-  </ng-container>
-
-  <!-- Score Column -->
-  <ng-container matColumnDef="score">
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      mat-multi-sort-header
-      sortActionDescription="Sort by score">
-      Score
-    </th>
-    <td mat-cell *matCellDef="let element">{{ element.score }}</td>
-  </ng-container>
-
-  <!-- Department Column -->
-  <ng-container matColumnDef="department">
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      mat-multi-sort-header
-      sortActionDescription="Sort by department">
-      Department
-    </th>
-    <td mat-cell *matCellDef="let element">{{ element.department }}</td>
-  </ng-container>
-
-  <!-- Comment Column -->
-  <ng-container matColumnDef="comment">
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      mat-multi-sort-header
-      sortActionDescription="Sort by comment">
-      Comment
-    </th>
-    <td mat-cell *matCellDef="let element">{{ element.comment }}</td>
-  </ng-container>
+<div class="table-controls">
+  <mat-multi-sort-control [sort]="sort"></mat-multi-sort-control>
+  <div class="spacer"></div>
+  <mat-chip
+    [highlighted]="true"
+    [matTableColumnConfigTrigger]="columns"
+    color=""
+    >Configure <mat-icon matChipTrailingIcon fontIcon="menu"></mat-icon
+  ></mat-chip>
+</div>
+<table #table mat-table [dataSource]="dataSource" matMultiSort>
+  @for (column of columns; track column.id) {
+    <ng-container [matColumnDef]="column.id">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-multi-sort-header
+        sortActionDescription="Sort by {{ column.label }}">
+        {{ column.label }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element[column.id] }}</td>
+    </ng-container>
+  }
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>

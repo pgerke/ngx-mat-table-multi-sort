@@ -17,3 +17,13 @@ th.mat-sort-header-sorted {
 hr {
   border: 1px solid transparent;
 }
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.table-controls {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
