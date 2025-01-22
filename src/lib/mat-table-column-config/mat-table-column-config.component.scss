@@ -1,0 +1,37 @@
+@use "./../../styles/variables" as var;
+@use "./../../styles/mixins";
+
+@include mixins.cdk-drag;
+
+.table-column-list {
+  background-color: var(--mat-sys-surface-container, #eeeeee);
+  color: var(--mat-sys-on-surface, rgba(0, 0, 0, 0.87));
+}
+
+.table-column {
+  background: var(--mat-sys-surface, #ffffff);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 48px;
+  padding: 0 16px 0 8px;
+
+  mat-icon {
+    margin-right: 16px;
+  }
+
+  mat-checkbox {
+    line-height: 48px;
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  &:last-child {
+    border: none;
+  }
+}
+
+.cdk-drop-list-dragging .table-column:not(.cdk-drag-placeholder) {
+  transition: var.$drag-animating-transition;
+}

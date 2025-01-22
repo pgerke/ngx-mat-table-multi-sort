@@ -1,9 +1,17 @@
+import { Component } from "@angular/core";
+import { TestBed } from "@angular/core/testing";
 import { MatSort, Sort } from "@angular/material/sort";
 import {
   MatMultiSortTableDataSource,
   MultiCriterionSort,
 } from "./mat-multi-sort-table-data-source";
 import { MatMultiSortDirective } from "./mat-multi-sort.directive";
+
+@Component({
+  selector: "mat-multi-sort-test",
+  standalone: true,
+})
+class TestComponent extends MatMultiSortDirective {}
 
 interface TestData {
   id: number;
@@ -82,8 +90,14 @@ describe("MultiCriterionSort", () => {
 describe("MatMultiSortTableDataSource", () => {
   let data: TestData[];
   let dataSource: MatMultiSortTableDataSource<TestData>;
+  let directive: MatMultiSortDirective;
 
   beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [TestComponent],
+    }).compileComponents();
+    const fixture = TestBed.createComponent(TestComponent);
+    directive = fixture.componentInstance;
     data = generateData();
     dataSource = new MatMultiSortTableDataSource();
   });
@@ -94,9 +108,8 @@ describe("MatMultiSortTableDataSource", () => {
   });
 
   it("should set multi sort directive", () => {
-    const sort = new MatMultiSortDirective();
-    dataSource.sort = sort;
-    expect(dataSource.sort).toBe(sort);
+    dataSource.sort = directive;
+    expect(dataSource.sort).toBe(directive);
   });
 
   it("should not sort data if sort directive is not set", () => {
@@ -105,17 +118,15 @@ describe("MatMultiSortTableDataSource", () => {
   });
 
   it("should not sort data if no sort criteria are set", () => {
-    const sort = new MatMultiSortDirective();
-    dataSource.sort = sort;
-    dataSource.sortData(data, sort);
+    dataSource.sort = directive;
+    dataSource.sortData(data, directive);
     expect(data).toEqual(data);
   });
 
   it("should sort data", () => {
-    const sort = new MatMultiSortDirective();
-    sort._sorts.push({ active: "id", direction: "desc" });
-    dataSource.sort = sort;
-    const sorted = dataSource.sortData(data, sort);
+    directive._sorts().push({ active: "id", direction: "desc" });
+    dataSource.sort = directive;
+    const sorted = dataSource.sortData(data, directive);
     expect(sorted.map((item) => item.id)).toEqual([3, 2, 1]);
   });
 });

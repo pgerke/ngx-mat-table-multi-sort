@@ -1,6 +1,6 @@
 {
   "name": "ngx-mat-table-multi-sort",
-  "version": "18.0.0",
+  "version": "18.1.0",
   "preview": false,
   "scripts": {
     "ng": "ng",
@@ -56,8 +56,8 @@
     "@angular/platform-browser-dynamic": "^18.2.13",
     "@types/jasmine": "~5.1.5",
     "angular-eslint": "^18.4.3",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.2.3",
     "jasmine-core": "~5.5.0",
     "karma": "~6.4.4",
     "karma-chrome-launcher": "~3.2.0",

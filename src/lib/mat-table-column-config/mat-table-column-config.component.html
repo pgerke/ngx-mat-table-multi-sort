@@ -1,0 +1,16 @@
+<div
+  cdkDropList
+  class="table-column-list mat-elevation-z4"
+  cdkDropListOrientation="vertical"
+  (cdkDropListDropped)="onColumnDropped($event)">
+  @for (column of columns; track column.id) {
+    <div cdkDrag class="table-column">
+      <mat-icon cdkDragHandle>drag_indicator</mat-icon>
+      <mat-checkbox
+        [checked]="column.visible"
+        (change)="onColumnVisibilityChanged(column.id)"
+        >{{ column.label }}</mat-checkbox
+      >
+    </div>
+  }
+</div>
