@@ -26,6 +26,9 @@ export class MatMultiSortDirective extends MatSort {
 
   constructor() {
     super();
+    /* We are using an effect to emit the sortChange event whenever the _sorts signal changes.
+     * This is necessary because the sortChange event is not emitted when the _sorts signal is updated directly (e.g., this._sorts.set([])).
+     */
     effect(() => {
       const length = this._sorts().length;
       this.sortChange.emit({

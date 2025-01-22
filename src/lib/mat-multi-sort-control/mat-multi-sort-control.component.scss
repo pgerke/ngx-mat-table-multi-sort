@@ -9,8 +9,8 @@
   transition: transform 150ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.mat-sort-header {
-  background-color: var(--mat-sys-surface, #ffffff) !important;
+.mat-mdc-chip.mat-sort-header {
+  background-color: var(--mat-sys-surface, #ffffff);
   transition:
     background-color 100ms cubic-bezier(0, 0, 0.2, 1),
     box-shadow 100ms cubic-bezier(0, 0, 0.2, 1);
