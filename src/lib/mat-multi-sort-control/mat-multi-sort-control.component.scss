@@ -3,7 +3,7 @@
 
 @include mixins.cdk-drag;
 
-.mat-sort-header {
+.mat-mdc-chip.mat-sort-header {
   background-color: var(--mat-sys-surface, #ffffff);
   transition:
     background-color 100ms cubic-bezier(0, 0, 0.2, 1),
