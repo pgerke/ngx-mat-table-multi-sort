@@ -9,7 +9,6 @@ import { MatChipsModule } from "@angular/material/chips";
 import { MatIconModule } from "@angular/material/icon";
 import { Sort } from "@angular/material/sort";
 import { MatMultiSortDirective } from "../mat-multi-sort.directive";
-import { MatTableConfigPersistenceService } from "../mat-table-config-persistence.service";
 
 @Component({
   selector: "mat-multi-sort-control",
@@ -51,10 +50,6 @@ export class MatMultiSortControlComponent {
   get sorts(): Sort[] {
     return this.sort?._sorts() || [];
   }
-
-  constructor(
-    private readonly persistenceService: MatTableConfigPersistenceService
-  ) {}
 
   /**
    * Handles the click event on a sort chip.

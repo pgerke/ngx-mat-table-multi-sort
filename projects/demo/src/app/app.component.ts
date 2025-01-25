@@ -129,11 +129,11 @@ export class AppComponent implements AfterViewInit {
   constructor(private readonly cdr: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
-    this.sort._sorts.set([
-      { active: "active", direction: "desc" },
-      { active: "department", direction: "asc" },
-      { active: "score", direction: "desc" },
-    ]);
+    // this.sort._sorts.set([
+    //   { active: "active", direction: "desc" },
+    //   { active: "department", direction: "asc" },
+    //   { active: "score", direction: "desc" },
+    // ]);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.cdr.detectChanges();

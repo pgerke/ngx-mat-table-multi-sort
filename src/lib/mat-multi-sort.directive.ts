@@ -1,13 +1,33 @@
 import { moveItemInArray } from "@angular/cdk/drag-drop";
-import { Directive, signal, WritableSignal } from "@angular/core";
 import {
+  Directive,
+  effect,
+  Inject,
+  InjectionToken,
+  Optional,
+  signal,
+  WritableSignal,
+} from "@angular/core";
+import {
+  MAT_SORT_DEFAULT_OPTIONS,
   MatSort,
   MatSortable,
   MatSortDefaultOptions,
   Sort,
   SortDirection,
 } from "@angular/material/sort";
-import { MatTableConfigPersistenceService } from "./mat-table-config-persistence.service";
+
+export const SORT_PERSISTENCE_STORAGE = new InjectionToken<Storage>(
+  "SORT_PERSISTENCE_STORAGE"
+);
+
+export const SORT_PERSISTENCE_ENABLED = new InjectionToken<boolean>(
+  "SORT_PERSISTENCE_ENABLED"
+);
+
+export const SORT_PERSISTENCE_KEY = new InjectionToken<string>(
+  "SORT_PERSISTENCE_KEY"
+);
 
 @Directive({
   selector: "[matMultiSort]",
@@ -26,10 +46,38 @@ export class MatMultiSortDirective extends MatSort {
   readonly _sorts: WritableSignal<Sort[]> = signal([]);
 
   constructor(
-    private readonly persistenceService: MatTableConfigPersistenceService,
-    _defaultOptions?: MatSortDefaultOptions | undefined
+    @Optional()
+    @Inject(SORT_PERSISTENCE_ENABLED)
+    private readonly isPersistenceEnabled: boolean,
+    @Optional()
+    @Inject(SORT_PERSISTENCE_KEY)
+    private readonly key: string,
+    @Optional()
+    @Inject(SORT_PERSISTENCE_STORAGE)
+    private readonly storage: Storage,
+    @Optional()
+    @Inject(MAT_SORT_DEFAULT_OPTIONS)
+    defaultOptions?: MatSortDefaultOptions | undefined
   ) {
-    super(_defaultOptions);
+    super(defaultOptions);
+
+    this.isPersistenceEnabled ??= true;
+    this.key ??= "mat-table-persistence";
+    this.storage ??= localStorage;
+
+    if (this.isPersistenceEnabled) {
+      const sortsSerialized = this.storage.getItem(`${this.key}-sorts`);
+      this._sorts.set(sortsSerialized ? JSON.parse(sortsSerialized) : []);
+    }
+
+    effect(() => {
+      const length = this._sorts().length;
+      this.sortChange.emit({
+        active: length ? this._sorts()[length - 1].active : "",
+        direction: length ? this._sorts()[length - 1].direction : "",
+      });
+      this.persistSortSettings();
+    });
   }
 
   /**
@@ -73,6 +121,7 @@ export class MatMultiSortDirective extends MatSort {
     }
 
     this.sortChange.emit({ active: this.active, direction: this.direction });
+    this.persistSortSettings();
   }
 
   /**
@@ -88,6 +137,7 @@ export class MatMultiSortDirective extends MatSort {
 
     this._sorts().splice(index, 1);
     this.sortChange.emit();
+    this.persistSortSettings();
   }
 
   /**
@@ -102,6 +152,7 @@ export class MatMultiSortDirective extends MatSort {
 
     moveItemInArray(this._sorts(), previousIndex, currentIndex);
     this.sortChange.emit(this._sorts()[currentIndex]);
+    this.persistSortSettings();
   }
 
   /**
@@ -123,6 +174,7 @@ export class MatMultiSortDirective extends MatSort {
     } as MatSortable);
     this._sorts()[index].direction = this.direction;
     this.sortChange.emit({ active: this.active, direction: this.direction });
+    this.persistSortSettings();
   }
 
   /**
@@ -136,5 +188,11 @@ export class MatMultiSortDirective extends MatSort {
     this.direction = "";
     this._sorts.set([]);
     this.sortChange.emit();
+    this.persistSortSettings();
+  }
+
+  private persistSortSettings(): void {
+    if (this.isPersistenceEnabled)
+      this.storage.setItem(`${this.key}-sorts`, JSON.stringify(this._sorts()));
   }
 }
