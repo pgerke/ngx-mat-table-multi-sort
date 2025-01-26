@@ -2,9 +2,11 @@ import { moveItemInArray } from "@angular/cdk/drag-drop";
 import {
   Directive,
   effect,
+  EventEmitter,
   Inject,
   InjectionToken,
   Optional,
+  Output,
   signal,
   WritableSignal,
 } from "@angular/core";
@@ -37,6 +39,9 @@ export const SORT_PERSISTENCE_KEY = new InjectionToken<string>(
   },
 })
 export class MatMultiSortDirective extends MatSort {
+  @Output()
+  private readonly persistenceChanged = new EventEmitter<Sort[]>();
+
   /**
    * A writable signal that holds an array of Sort objects.
    * This signal is used to manage the sorting state of the table.
@@ -66,7 +71,7 @@ export class MatMultiSortDirective extends MatSort {
     this.storage ??= localStorage;
 
     if (this.isPersistenceEnabled) {
-      const sortsSerialized = this.storage.getItem(`${this.key}-sorts`);
+      const sortsSerialized = this.storage.getItem(this.key);
       this._sorts.set(sortsSerialized ? JSON.parse(sortsSerialized) : []);
     }
 
@@ -192,7 +197,8 @@ export class MatMultiSortDirective extends MatSort {
   }
 
   private persistSortSettings(): void {
+    this.persistenceChanged.emit(this._sorts());
     if (this.isPersistenceEnabled)
-      this.storage.setItem(`${this.key}-sorts`, JSON.stringify(this._sorts()));
+      this.storage.setItem(this.key, JSON.stringify(this._sorts()));
   }
 }

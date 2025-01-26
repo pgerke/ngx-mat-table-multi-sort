@@ -1,9 +1,14 @@
+import { Component } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatSort, Sort } from "@angular/material/sort";
 import {
   MatMultiSortTableDataSource,
   MultiCriterionSort,
 } from "./mat-multi-sort-table-data-source";
-import { MatMultiSortDirective } from "./mat-multi-sort.directive";
+import {
+  MatMultiSortDirective,
+  SORT_PERSISTENCE_ENABLED,
+} from "./mat-multi-sort.directive";
 
 interface TestData {
   id: number;
@@ -38,6 +43,12 @@ function generateData(): TestData[] {
     },
   ];
 }
+
+@Component({
+  selector: "mat-multi-sort-test",
+  standalone: true,
+})
+class TestComponent extends MatMultiSortDirective {}
 
 describe("MultiCriterionSort", () => {
   let data: TestData[];
@@ -80,10 +91,18 @@ describe("MultiCriterionSort", () => {
 });
 
 describe("MatMultiSortTableDataSource", () => {
+  let fixture: ComponentFixture<TestComponent>;
+  let directive: MatMultiSortDirective;
   let data: TestData[];
   let dataSource: MatMultiSortTableDataSource<TestData>;
 
   beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [TestComponent, MatMultiSortDirective],
+      providers: [{ provide: SORT_PERSISTENCE_ENABLED, useValue: false }],
+    }).compileComponents();
+    fixture = TestBed.createComponent(TestComponent);
+    directive = fixture.componentInstance;
     data = generateData();
     dataSource = new MatMultiSortTableDataSource();
   });
@@ -94,9 +113,8 @@ describe("MatMultiSortTableDataSource", () => {
   });
 
   it("should set multi sort directive", () => {
-    const sort = new MatMultiSortDirective();
-    dataSource.sort = sort;
-    expect(dataSource.sort).toBe(sort);
+    dataSource.sort = directive;
+    expect(dataSource.sort).toBe(directive);
   });
 
   it("should not sort data if sort directive is not set", () => {
@@ -105,17 +123,15 @@ describe("MatMultiSortTableDataSource", () => {
   });
 
   it("should not sort data if no sort criteria are set", () => {
-    const sort = new MatMultiSortDirective();
-    dataSource.sort = sort;
-    dataSource.sortData(data, sort);
+    dataSource.sort = directive;
+    dataSource.sortData(data, directive);
     expect(data).toEqual(data);
   });
 
   it("should sort data", () => {
-    const sort = new MatMultiSortDirective();
-    sort._sorts().push({ active: "id", direction: "desc" });
-    dataSource.sort = sort;
-    const sorted = dataSource.sortData(data, sort);
+    directive._sorts().push({ active: "id", direction: "desc" });
+    dataSource.sort = directive;
+    const sorted = dataSource.sortData(data, directive);
     expect(sorted.map((item) => item.id)).toEqual([3, 2, 1]);
   });
 });
