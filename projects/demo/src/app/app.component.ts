@@ -4,9 +4,12 @@ import {
   Component,
   ViewChild,
 } from "@angular/core";
+import { MatButtonModule } from "@angular/material/button";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatIconModule } from "@angular/material/icon";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
+import { MatRadioChange, MatRadioModule } from "@angular/material/radio";
+import { Sort } from "@angular/material/sort";
 import { MatTableModule } from "@angular/material/table";
 import {
   MatMultiSortControlComponent,
@@ -14,6 +17,7 @@ import {
   MatMultiSortHeaderComponent,
   MatMultiSortTableDataSource,
   MatTableColumnConfigTriggerDirective,
+  SORT_PERSISTENCE_ENABLED,
   TableColumn,
 } from "../../../../src/public-api";
 import { MEMBER_DATA, MemberInformation } from "./data";
@@ -23,18 +27,25 @@ import { MEMBER_DATA, MemberInformation } from "./data";
  */
 const APP_VERSION = "DEBUG";
 
+const persistenceModeKey = "persistenceMode";
+const PersistenceModes = ["Default", "Custom_1", "Custom_2"] as const;
+type PersistenceMode = (typeof PersistenceModes)[number];
+
 @Component({
   selector: "app-root",
   imports: [
+    MatButtonModule,
     MatChipsModule,
     MatIconModule,
     MatTableModule,
     MatPaginatorModule,
+    MatRadioModule,
     MatMultiSortDirective,
     MatMultiSortControlComponent,
     MatMultiSortHeaderComponent,
     MatTableColumnConfigTriggerDirective,
   ],
+  providers: [{ provide: SORT_PERSISTENCE_ENABLED, useValue: false }],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
 })
@@ -80,6 +91,8 @@ export class AppComponent implements AfterViewInit {
 
   readonly currentYear = new Date().getFullYear();
 
+  private initialized = false;
+
   /**
    * A data source for the Material table that holds and manages the data of type `MemberInformation`.
    * It is initialized with the provided `MEMBER_DATA`.
@@ -90,6 +103,9 @@ export class AppComponent implements AfterViewInit {
   readonly dataSource = new MatMultiSortTableDataSource<MemberInformation>(
     MEMBER_DATA
   );
+
+  persistenceModes = PersistenceModes;
+  persistenceMode: PersistenceMode = "Default";
 
   /**
    * An array of strings representing the columns to be displayed in the table.
@@ -129,13 +145,49 @@ export class AppComponent implements AfterViewInit {
   constructor(private readonly cdr: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
-    // this.sort._sorts.set([
-    //   { active: "active", direction: "desc" },
-    //   { active: "department", direction: "asc" },
-    //   { active: "score", direction: "desc" },
-    // ]);
+    const mode = sessionStorage.getItem(persistenceModeKey);
+    if (PersistenceModes.includes(mode as PersistenceMode)) {
+      this.persistenceMode = mode as PersistenceMode;
+    }
+
+    this.load();
+    this.initialized = true;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.cdr.detectChanges();
+  }
+
+  load(): void {
+    const sorts = sessionStorage.getItem(`sorts-${this.persistenceMode}`);
+    if (sorts) {
+      this.sort._sorts.set(JSON.parse(sorts));
+    } else this.reset();
+  }
+
+  onPersistenceChanged(sorts: Sort[]): void {
+    if (!this.initialized) return;
+
+    sessionStorage.setItem(
+      `sorts-${this.persistenceMode}`,
+      JSON.stringify(sorts)
+    );
+  }
+
+  onPersistenceModeChanged(event: MatRadioChange): void {
+    this.persistenceMode = event.value;
+    sessionStorage.setItem(persistenceModeKey, this.persistenceMode);
+    this.load();
+  }
+
+  reset(): void {
+    this.sort._sorts.set(
+      this.persistenceMode === "Default"
+        ? [
+            { active: "active", direction: "desc" },
+            { active: "department", direction: "asc" },
+            { active: "score", direction: "desc" },
+          ]
+        : []
+    );
   }
 }

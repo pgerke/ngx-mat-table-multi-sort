@@ -22,8 +22,17 @@ hr {
   flex: 1 1 auto;
 }
 
+.demo-config {
+  padding: 1rem;
+  background: var(--mat-sys-background);
+
+  > button {
+    margin-right: 0.5rem;
+  }
+}
+
 .table-controls {
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
 }
