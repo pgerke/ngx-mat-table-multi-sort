@@ -19,6 +19,7 @@ html {
 }
 
 html > * {
+  background: var(--mat-sys-background);
   color: var(--mat-sys-on-surface, rgba(0, 0, 0, 0.87));
   font-family: "Roboto", Helvetica, Arial, sans-serif;
   font-size: 14px;
