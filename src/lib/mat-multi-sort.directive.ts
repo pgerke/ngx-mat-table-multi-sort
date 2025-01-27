@@ -67,7 +67,7 @@ export class MatMultiSortDirective extends MatSort {
     super(defaultOptions);
 
     this.isPersistenceEnabled ??= true;
-    this.key ??= "mat-table-persistence";
+    this.key ??= "mat-table-persistence-sort";
     this.storage ??= localStorage;
 
     if (this.isPersistenceEnabled) {

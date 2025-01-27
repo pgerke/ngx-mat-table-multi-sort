@@ -2,6 +2,8 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
+  OnInit,
   ViewChild,
 } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
@@ -16,11 +18,12 @@ import {
   MatMultiSortDirective,
   MatMultiSortHeaderComponent,
   MatMultiSortTableDataSource,
+  MatTableColumnConfigPersistenceService,
   MatTableColumnConfigTriggerDirective,
-  SORT_PERSISTENCE_ENABLED,
   TableColumn,
 } from "../../../../src/public-api";
 import { MEMBER_DATA, MemberInformation } from "./data";
+import { Subscription } from "rxjs";
 
 /**
  * The version of the application.
@@ -45,7 +48,6 @@ type PersistenceMode = (typeof PersistenceModes)[number];
     MatMultiSortHeaderComponent,
     MatTableColumnConfigTriggerDirective,
   ],
-  providers: [{ provide: SORT_PERSISTENCE_ENABLED, useValue: false }],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
 })
@@ -55,7 +57,7 @@ type PersistenceMode = (typeof PersistenceModes)[number];
  *
  * @implements {AfterViewInit}
  */
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   /**
    * Defines the columns for the table displaying member information.
    * Each column is represented by an object containing the following properties:
@@ -73,16 +75,7 @@ export class AppComponent implements AfterViewInit {
    * - `department`: The department the member belongs to.
    * - `comment`: Additional comments about the member.
    */
-  readonly columns: TableColumn<MemberInformation>[] = [
-    { id: "id", label: "ID", visible: false },
-    { id: "name", label: "Name", visible: true },
-    { id: "age", label: "Age", visible: true },
-    { id: "active", label: "Active", visible: true },
-    { id: "joinDate", label: "Join Date", visible: true },
-    { id: "score", label: "Score", visible: true },
-    { id: "department", label: "Department", visible: true },
-    { id: "comment", label: "Comment", visible: true },
-  ];
+  columns: TableColumn<MemberInformation>[] = [];
 
   /**
    * The current year based on the system's date.
@@ -92,6 +85,7 @@ export class AppComponent implements AfterViewInit {
   readonly currentYear = new Date().getFullYear();
 
   private initialized = false;
+  private subscription: Subscription | undefined;
 
   /**
    * A data source for the Material table that holds and manages the data of type `MemberInformation`.
@@ -142,7 +136,22 @@ export class AppComponent implements AfterViewInit {
    */
   readonly version = APP_VERSION;
 
-  constructor(private readonly cdr: ChangeDetectorRef) {}
+  constructor(
+    private readonly persistenceService: MatTableColumnConfigPersistenceService<MemberInformation>,
+    private readonly cdr: ChangeDetectorRef
+  ) {}
+
+  ngOnInit(): void {
+    this.subscription = this.persistenceService
+      .getColumns()
+      .subscribe((columns) => {
+        this.columns = columns;
+        sessionStorage.setItem(
+          `columns-${this.persistenceMode}`,
+          JSON.stringify(columns)
+        );
+      });
+  }
 
   ngAfterViewInit(): void {
     const mode = sessionStorage.getItem(persistenceModeKey);
@@ -157,10 +166,22 @@ export class AppComponent implements AfterViewInit {
     this.cdr.detectChanges();
   }
 
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+    this.subscription = undefined;
+  }
+
   load(): void {
+    // Load sorts
     const sorts = sessionStorage.getItem(`sorts-${this.persistenceMode}`);
     if (sorts) {
       this.sort._sorts.set(JSON.parse(sorts));
+    } else this.reset();
+
+    // Load column config
+    const columns = sessionStorage.getItem(`columns-${this.persistenceMode}`);
+    if (columns) {
+      this.persistenceService.columns = JSON.parse(columns);
     } else this.reset();
   }
 
@@ -180,14 +201,25 @@ export class AppComponent implements AfterViewInit {
   }
 
   reset(): void {
-    this.sort._sorts.set(
-      this.persistenceMode === "Default"
-        ? [
-            { active: "active", direction: "desc" },
-            { active: "department", direction: "asc" },
-            { active: "score", direction: "desc" },
-          ]
-        : []
-    );
+    if (this.persistenceMode === "Default") {
+      this.sort._sorts.set([
+        { active: "active", direction: "desc" },
+        { active: "department", direction: "asc" },
+        { active: "score", direction: "desc" },
+      ]);
+    } else {
+      this.sort._sorts.set([]);
+      this.persistenceService.columns = [];
+    }
+    this.persistenceService.columns = [
+      { id: "id", label: "ID", visible: this.persistenceMode !== "Default" },
+      { id: "name", label: "Name", visible: true },
+      { id: "age", label: "Age", visible: true },
+      { id: "active", label: "Active", visible: true },
+      { id: "joinDate", label: "Join Date", visible: true },
+      { id: "score", label: "Score", visible: true },
+      { id: "department", label: "Department", visible: true },
+      { id: "comment", label: "Comment", visible: true },
+    ];
   }
 }
