@@ -146,6 +146,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
       .getColumns()
       .subscribe((columns) => {
         this.columns = columns;
+        if (!this.initialized) return;
+
         sessionStorage.setItem(
           `columns-${this.persistenceMode}`,
           JSON.stringify(columns)
