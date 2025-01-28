@@ -1,9 +1,8 @@
 import { TestBed } from "@angular/core/testing";
-
 import { MatTableColumnConfigPersistenceService } from "./mat-table-column-config-persistence.service";
 
 describe("MatTableColumnConfigPersistenceService", () => {
-  let service: MatTableColumnConfigPersistenceService;
+  let service: MatTableColumnConfigPersistenceService<unknown>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
