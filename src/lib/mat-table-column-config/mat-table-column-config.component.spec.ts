@@ -2,17 +2,25 @@ import { CdkDragDrop } from "@angular/cdk/drag-drop";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { generateColumns, Test } from "../../test";
 import { MatTableColumnConfigComponent } from "./mat-table-column-config.component";
+import { COLUMN_CONFIG_PERSISTENCE_ENABLED } from "../mat-table-column-config";
+import { MatTableColumnConfigPersistenceService } from "../mat-table-column-config-persistence.service";
 
 describe("MatTableColumnConfigComponent", () => {
   let component: MatTableColumnConfigComponent<Test>;
   let fixture: ComponentFixture<MatTableColumnConfigComponent<Test>>;
+  let service: MatTableColumnConfigPersistenceService<Test>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MatTableColumnConfigComponent],
-      providers: [],
+      providers: [
+        MatTableColumnConfigPersistenceService,
+        { provide: COLUMN_CONFIG_PERSISTENCE_ENABLED, useValue: false },
+      ],
     }).compileComponents();
 
+    service = TestBed.inject(MatTableColumnConfigPersistenceService);
+    service.columns = generateColumns();
     fixture = TestBed.createComponent(MatTableColumnConfigComponent<Test>);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -22,20 +30,24 @@ describe("MatTableColumnConfigComponent", () => {
     expect(component).toBeTruthy();
   });
 
-  xit("should update column order on drop", () => {
+  it("should update column order on drop", () => {
     const event = {
       previousIndex: 0,
       currentIndex: 1,
     } as CdkDragDrop<Test>;
 
-    let order = component.columns.map((e) => e.id);
-    expect(order).toEqual(["id", "name", "value"]);
+    let orderComponent = component.columns.map((e) => e.id);
+    let orderService = service.columns.map((e) => e.id);
+    expect(orderComponent).toEqual(["id", "name", "value"]);
+    expect(orderService).toEqual(orderComponent);
     component.onColumnDropped(event);
-    order = component.columns.map((e) => e.id);
-    expect(order).toEqual(["name", "id", "value"]);
+    orderComponent = component.columns.map((e) => e.id);
+    orderService = service.columns.map((e) => e.id);
+    expect(orderComponent).toEqual(["name", "id", "value"]);
+    expect(orderService).toEqual(orderComponent);
   });
 
-  xit("should toggle column visibility", () => {
+  it("should toggle column visibility", () => {
     expect(component.columns[1].visible).toBeTrue();
     component.onColumnVisibilityChanged("name");
     expect(component.columns[1].visible).toBeFalse();

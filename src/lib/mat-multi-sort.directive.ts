@@ -53,7 +53,7 @@ export class MatMultiSortDirective extends MatSort {
   constructor(
     @Optional()
     @Inject(SORT_PERSISTENCE_ENABLED)
-    private readonly isPersistenceEnabled: boolean,
+    public isPersistenceEnabled: boolean,
     @Optional()
     @Inject(SORT_PERSISTENCE_KEY)
     private readonly key: string,

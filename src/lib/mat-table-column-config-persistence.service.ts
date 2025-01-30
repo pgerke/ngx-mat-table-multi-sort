@@ -1,11 +1,11 @@
 import { Inject, Injectable, Optional } from "@angular/core";
+import { BehaviorSubject, Observable } from "rxjs";
 import {
   COLUMN_CONFIG_PERSISTENCE_ENABLED,
   COLUMN_CONFIG_PERSISTENCE_KEY,
   COLUMN_CONFIG_PERSISTENCE_STORAGE,
   TableColumn,
 } from "./mat-table-column-config";
-import { BehaviorSubject, Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -13,10 +13,20 @@ import { BehaviorSubject, Observable } from "rxjs";
 export class MatTableColumnConfigPersistenceService<T> {
   private readonly columns$ = new BehaviorSubject<TableColumn<T>[]>([]);
 
+  /**
+   * Gets the current table columns configuration.
+   *
+   * @returns {TableColumn<T>[]} An array of table columns.
+   */
   public get columns(): TableColumn<T>[] {
     return this.columns$.getValue();
   }
 
+  /**
+   * Sets the columns configuration for the table and persists the configuration.
+   *
+   * @param value - An array of `TableColumn<T>` representing the new column configuration.
+   */
   public set columns(value: TableColumn<T>[]) {
     this.columns$.next(value);
     this.persistColumnConfig(value);
@@ -25,7 +35,7 @@ export class MatTableColumnConfigPersistenceService<T> {
   constructor(
     @Optional()
     @Inject(COLUMN_CONFIG_PERSISTENCE_ENABLED)
-    private readonly isPersistenceEnabled: boolean,
+    public isPersistenceEnabled: boolean,
     @Optional()
     @Inject(COLUMN_CONFIG_PERSISTENCE_KEY)
     private readonly key: string,
@@ -43,17 +53,13 @@ export class MatTableColumnConfigPersistenceService<T> {
         columnsSerialized ? JSON.parse(columnsSerialized) : []
       );
     }
-
-    // effect(() => {
-    //   // const length = this.columns().length;
-    //   // this.sortChange.emit({
-    //   //   active: length ? this._sorts()[length - 1].active : "",
-    //   //   direction: length ? this._sorts()[length - 1].direction : "",
-    //   // });
-    //   this.persistSortSettings();
-    // });
   }
 
+  /**
+   * Retrieves an observable stream of table columns.
+   *
+   * @returns {Observable<TableColumn<T>[]>} An observable that emits an array of table columns.
+   */
   public getColumns(): Observable<TableColumn<T>[]> {
     return this.columns$.asObservable();
   }

@@ -1,9 +1,9 @@
 import { Component } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatSortable } from "@angular/material/sort";
+import { MatSortable, Sort } from "@angular/material/sort";
 import {
   MatMultiSortDirective,
-  SORT_PERSISTENCE_ENABLED,
+  SORT_PERSISTENCE_STORAGE,
 } from "./mat-multi-sort.directive";
 
 @Component({
@@ -13,13 +13,18 @@ import {
 class TestComponent extends MatMultiSortDirective {}
 
 describe("MatMultiSortDirective", () => {
+  let setItemSpy: jasmine.Spy;
   let fixture: ComponentFixture<TestComponent>;
   let directive: MatMultiSortDirective;
 
   beforeEach(async () => {
+    spyOn(globalThis.sessionStorage, "getItem");
+    setItemSpy = spyOn(globalThis.sessionStorage, "setItem");
     await TestBed.configureTestingModule({
       imports: [TestComponent, MatMultiSortDirective],
-      providers: [{ provide: SORT_PERSISTENCE_ENABLED, useValue: false }],
+      providers: [
+        { provide: SORT_PERSISTENCE_STORAGE, useValue: sessionStorage },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestComponent);
@@ -63,6 +68,7 @@ describe("MatMultiSortDirective", () => {
     expect(directive.active).toBe("test");
     expect(directive.direction).toBe("desc");
     expect(spy).toHaveBeenCalledWith({ active: "test", direction: "desc" });
+    expect(setItemSpy).toHaveBeenCalled();
   });
 
   it("should append a new column to the list of sort columns with the default sort direction unless otherwise specified", () => {
@@ -77,6 +83,7 @@ describe("MatMultiSortDirective", () => {
     expect(directive.active).toBe("test");
     expect(directive.direction).toBe("asc");
     expect(spy).toHaveBeenCalledWith({ active: "test", direction: "asc" });
+    expect(setItemSpy).toHaveBeenCalled();
   });
 
   it("should update the direction of an existing column", () => {
@@ -90,6 +97,7 @@ describe("MatMultiSortDirective", () => {
     expect(directive.active).toBe("col1");
     expect(directive.direction).toBe("desc");
     expect(spy).toHaveBeenCalledWith({ active: "col1", direction: "desc" });
+    expect(setItemSpy).toHaveBeenCalled();
   });
 
   it("should remove the direction of an existing column if the direction is empty", () => {
@@ -103,6 +111,7 @@ describe("MatMultiSortDirective", () => {
     expect(directive.active).toBe("col2");
     expect(directive.direction).toBe("");
     expect(spy).toHaveBeenCalledWith({ active: "col2", direction: "" });
+    expect(setItemSpy).toHaveBeenCalled();
   });
 
   it("should remove a sort level by its identifier", () => {
@@ -112,7 +121,8 @@ describe("MatMultiSortDirective", () => {
       { active: "col1", direction: "asc" },
       { active: "col3", direction: "asc" },
     ]);
-    expect(spy).toHaveBeenCalledWith();
+    expect(spy).toHaveBeenCalled();
+    expect(setItemSpy).toHaveBeenCalled();
   });
 
   it("should not change the sort levels if the identifier is not found", () => {
@@ -124,6 +134,7 @@ describe("MatMultiSortDirective", () => {
       { active: "col3", direction: "asc" },
     ]);
     expect(spy).not.toHaveBeenCalled();
+    expect(setItemSpy).not.toHaveBeenCalled();
   });
 
   it("should reorder the sort levels when previousIndex and currentIndex are different", () => {
@@ -135,6 +146,7 @@ describe("MatMultiSortDirective", () => {
       { active: "col1", direction: "asc" },
     ]);
     expect(spy).toHaveBeenCalledWith({ active: "col1", direction: "asc" });
+    expect(setItemSpy).toHaveBeenCalled();
   });
 
   it("should not reorder the sort levels when previousIndex and currentIndex are the same", () => {
@@ -146,6 +158,7 @@ describe("MatMultiSortDirective", () => {
       { active: "col3", direction: "asc" },
     ]);
     expect(spy).not.toHaveBeenCalled();
+    expect(setItemSpy).not.toHaveBeenCalled();
   });
 
   it("should toggle the sort direction for an existing column", () => {
@@ -159,6 +172,7 @@ describe("MatMultiSortDirective", () => {
     expect(directive.active).toBe("col1");
     expect(directive.direction).toBe("desc");
     expect(spy).toHaveBeenCalledWith({ active: "col1", direction: "desc" });
+    expect(setItemSpy).toHaveBeenCalled();
   });
 
   it("should not change the sort direction for a column that is not sorted", () => {
@@ -170,6 +184,7 @@ describe("MatMultiSortDirective", () => {
       { active: "col3", direction: "asc" },
     ]);
     expect(spy).not.toHaveBeenCalled();
+    expect(setItemSpy).not.toHaveBeenCalled();
   });
 
   it("should cycle through sort directions for an existing column", () => {
@@ -185,6 +200,7 @@ describe("MatMultiSortDirective", () => {
     expect(directive.active).toBe("col1");
     expect(directive.direction).toBe("desc");
     expect(spy).toHaveBeenCalledWith({ active: "col1", direction: "desc" });
+    expect(setItemSpy).toHaveBeenCalledTimes(1);
 
     directive.toggleSortDirection("col1");
     expect(directive._sorts()).toEqual([
@@ -195,6 +211,7 @@ describe("MatMultiSortDirective", () => {
     expect(directive.active).toBe("col1");
     expect(directive.direction).toBe("asc");
     expect(spy).toHaveBeenCalledWith({ active: "col1", direction: "asc" });
+    expect(setItemSpy).toHaveBeenCalledTimes(2);
   });
 
   it("should clear the current sorting state", () => {
@@ -204,5 +221,29 @@ describe("MatMultiSortDirective", () => {
     expect(directive.direction).toBe("");
     expect(directive._sorts()).toEqual([]);
     expect(spy).toHaveBeenCalled();
+    expect(setItemSpy).toHaveBeenCalled();
+  });
+});
+
+describe("MatMultiSortDirective", () => {
+  it("should restore the persisted settings", async () => {
+    const test: Sort[] = [
+      { active: "col1", direction: "asc" },
+      { active: "col2", direction: "desc" },
+      { active: "col3", direction: "asc" },
+    ];
+    spyOn(globalThis.sessionStorage, "getItem").and.returnValue(
+      JSON.stringify(test)
+    );
+    await TestBed.configureTestingModule({
+      imports: [TestComponent, MatMultiSortDirective],
+      providers: [
+        { provide: SORT_PERSISTENCE_STORAGE, useValue: sessionStorage },
+      ],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(TestComponent);
+    const directive = fixture.componentInstance;
+    expect(directive._sorts()).toEqual(test);
   });
 });
