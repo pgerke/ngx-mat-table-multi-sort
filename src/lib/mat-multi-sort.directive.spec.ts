@@ -1,5 +1,10 @@
 import { Component } from "@angular/core";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from "@angular/core/testing";
 import { MatSortable, Sort } from "@angular/material/sort";
 import {
   MatMultiSortDirective,
@@ -15,7 +20,7 @@ class TestComponent extends MatMultiSortDirective {}
 describe("MatMultiSortDirective", () => {
   let setItemSpy: jasmine.Spy;
   let fixture: ComponentFixture<TestComponent>;
-  let directive: MatMultiSortDirective;
+  let directive: TestComponent;
 
   beforeEach(async () => {
     spyOn(globalThis.sessionStorage, "getItem");
@@ -223,6 +228,14 @@ describe("MatMultiSortDirective", () => {
     expect(spy).toHaveBeenCalled();
     expect(setItemSpy).toHaveBeenCalled();
   });
+
+  it("should trigger effect", fakeAsync(() => {
+    const spy = spyOn(directive.sortChange, "emit");
+    directive._sorts.update((e) => e.reverse());
+    fixture.detectChanges();
+    tick();
+    expect(spy).toHaveBeenCalledWith({ active: "col1", direction: "asc" });
+  }));
 });
 
 describe("MatMultiSortDirective", () => {

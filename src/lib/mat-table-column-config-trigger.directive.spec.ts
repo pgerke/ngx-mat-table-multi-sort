@@ -6,7 +6,7 @@ import {
   TestBed,
   tick,
 } from "@angular/core/testing";
-import { generateColumns, Test } from "../test";
+import { Test } from "../test";
 import { MatTableColumnConfigTriggerDirective } from "./mat-table-column-config-trigger.directive";
 
 @Component({ template: "" })
