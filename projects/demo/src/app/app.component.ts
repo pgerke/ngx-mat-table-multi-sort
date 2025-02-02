@@ -13,6 +13,7 @@ import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatRadioChange, MatRadioModule } from "@angular/material/radio";
 import { Sort } from "@angular/material/sort";
 import { MatTableModule } from "@angular/material/table";
+import { Subscription } from "rxjs";
 import {
   MatMultiSortControlComponent,
   MatMultiSortDirective,
@@ -23,7 +24,6 @@ import {
   TableColumn,
 } from "../../../../src/public-api";
 import { MEMBER_DATA, MemberInformation } from "./data";
-import { Subscription } from "rxjs";
 
 /**
  * The version of the application.
@@ -178,13 +178,13 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     const sorts = sessionStorage.getItem(`sorts-${this.persistenceMode}`);
     if (sorts) {
       this.sort._sorts.set(JSON.parse(sorts));
-    } else this.reset();
+    } else this.resetSorts();
 
     // Load column config
     const columns = sessionStorage.getItem(`columns-${this.persistenceMode}`);
     if (columns) {
       this.persistenceService.columns = JSON.parse(columns);
-    } else this.reset();
+    } else this.resetColumns();
   }
 
   onPersistenceChanged(sorts: Sort[]): void {
@@ -203,16 +203,11 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   reset(): void {
-    if (this.persistenceMode === "Default") {
-      this.sort._sorts.set([
-        { active: "active", direction: "desc" },
-        { active: "department", direction: "asc" },
-        { active: "score", direction: "desc" },
-      ]);
-    } else {
-      this.sort._sorts.set([]);
-      this.persistenceService.columns = [];
-    }
+    this.resetColumns();
+    this.resetSorts();
+  }
+
+  private resetColumns(): void {
     this.persistenceService.columns = [
       { id: "id", label: "ID", visible: this.persistenceMode !== "Default" },
       { id: "name", label: "Name", visible: true },
@@ -223,5 +218,17 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
       { id: "department", label: "Department", visible: true },
       { id: "comment", label: "Comment", visible: true },
     ];
+  }
+
+  private resetSorts(): void {
+    if (this.persistenceMode === "Default") {
+      this.sort._sorts.set([
+        { active: "active", direction: "desc" },
+        { active: "department", direction: "asc" },
+        { active: "score", direction: "desc" },
+      ]);
+    } else {
+      this.sort._sorts.set([]);
+    }
   }
 }
