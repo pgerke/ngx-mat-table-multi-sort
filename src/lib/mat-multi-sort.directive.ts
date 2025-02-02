@@ -1,11 +1,69 @@
 import { moveItemInArray } from "@angular/cdk/drag-drop";
-import { Directive, signal, WritableSignal } from "@angular/core";
 import {
+  Directive,
+  effect,
+  EventEmitter,
+  Inject,
+  InjectionToken,
+  Optional,
+  Output,
+  signal,
+  WritableSignal,
+} from "@angular/core";
+import {
+  MAT_SORT_DEFAULT_OPTIONS,
   MatSort,
   MatSortable,
+  MatSortDefaultOptions,
   Sort,
   SortDirection,
 } from "@angular/material/sort";
+
+/**
+ * Injection token for the storage mechanism used to persist sorting state.
+ *
+ * This token can be used to provide a custom storage implementation for persisting
+ * the sorting state of a table. By default, it can be set to use localStorage, sessionStorage,
+ * or any other storage mechanism that implements the Storage interface.
+ *
+ */
+export const SORT_PERSISTENCE_STORAGE = new InjectionToken<Storage>(
+  "SORT_PERSISTENCE_STORAGE"
+);
+
+/**
+ * Injection token used to enable or disable the persistence of sorting state.
+ *
+ * This token can be provided in the application's dependency injection system
+ * to control whether the sorting state of a table should be persisted across
+ * sessions or not.
+ *
+ * @example
+ * // To enable sort persistence:
+ * providers: [
+ *   { provide: SORT_PERSISTENCE_ENABLED, useValue: true }
+ * ]
+ *
+ * @example
+ * // To disable sort persistence:
+ * providers: [
+ *   { provide: SORT_PERSISTENCE_ENABLED, useValue: false }
+ * ]
+ */
+export const SORT_PERSISTENCE_ENABLED = new InjectionToken<boolean>(
+  "SORT_PERSISTENCE_ENABLED"
+);
+
+/**
+ * Injection token for the key used to persist sorting state.
+ *
+ * This token can be used to provide a custom key for storing
+ * the sorting state in a persistence layer, such as local storage
+ * or a database.
+ */
+export const SORT_PERSISTENCE_KEY = new InjectionToken<string>(
+  "SORT_PERSISTENCE_KEY"
+);
 
 @Directive({
   selector: "[matMultiSort]",
@@ -15,6 +73,9 @@ import {
   },
 })
 export class MatMultiSortDirective extends MatSort {
+  @Output()
+  private readonly persistenceChanged = new EventEmitter<Sort[]>();
+
   /**
    * A writable signal that holds an array of Sort objects.
    * This signal is used to manage the sorting state of the table.
@@ -22,6 +83,42 @@ export class MatMultiSortDirective extends MatSort {
    * @readonly
    */
   readonly _sorts: WritableSignal<Sort[]> = signal([]);
+
+  constructor(
+    @Optional()
+    @Inject(SORT_PERSISTENCE_ENABLED)
+    public isPersistenceEnabled: boolean,
+    @Optional()
+    @Inject(SORT_PERSISTENCE_KEY)
+    private readonly key: string,
+    @Optional()
+    @Inject(SORT_PERSISTENCE_STORAGE)
+    private readonly storage: Storage,
+    @Optional()
+    @Inject(MAT_SORT_DEFAULT_OPTIONS)
+    defaultOptions?: MatSortDefaultOptions | undefined
+  ) {
+    super(defaultOptions);
+
+    this.isPersistenceEnabled ??= true;
+    this.key ??= "mat-table-persistence-sort";
+    this.storage ??= localStorage;
+
+    if (this.isPersistenceEnabled) {
+      const sortsSerialized = this.storage.getItem(this.key);
+      this._sorts.set(sortsSerialized ? JSON.parse(sortsSerialized) : []);
+    }
+
+    // Update the sorting state when the sorts signal changes.
+    effect(() => {
+      const length = this._sorts().length;
+      this.sortChange.emit({
+        active: length ? this._sorts()[length - 1].active : "",
+        direction: length ? this._sorts()[length - 1].direction : "",
+      });
+      this.persistSortSettings();
+    });
+  }
 
   /**
    * Retrieves the sort direction for a given column ID.
@@ -64,6 +161,7 @@ export class MatMultiSortDirective extends MatSort {
     }
 
     this.sortChange.emit({ active: this.active, direction: this.direction });
+    this.persistSortSettings();
   }
 
   /**
@@ -79,6 +177,7 @@ export class MatMultiSortDirective extends MatSort {
 
     this._sorts().splice(index, 1);
     this.sortChange.emit();
+    this.persistSortSettings();
   }
 
   /**
@@ -93,6 +192,7 @@ export class MatMultiSortDirective extends MatSort {
 
     moveItemInArray(this._sorts(), previousIndex, currentIndex);
     this.sortChange.emit(this._sorts()[currentIndex]);
+    this.persistSortSettings();
   }
 
   /**
@@ -114,6 +214,7 @@ export class MatMultiSortDirective extends MatSort {
     } as MatSortable);
     this._sorts()[index].direction = this.direction;
     this.sortChange.emit({ active: this.active, direction: this.direction });
+    this.persistSortSettings();
   }
 
   /**
@@ -127,5 +228,12 @@ export class MatMultiSortDirective extends MatSort {
     this.direction = "";
     this._sorts.set([]);
     this.sortChange.emit();
+    this.persistSortSettings();
+  }
+
+  private persistSortSettings(): void {
+    this.persistenceChanged.emit(this._sorts());
+    if (this.isPersistenceEnabled)
+      this.storage.setItem(this.key, JSON.stringify(this._sorts()));
   }
 }

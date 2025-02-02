@@ -8,7 +8,7 @@ import { ANIMATION_MODULE_TYPE, Component, inject, Input } from "@angular/core";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatIconModule } from "@angular/material/icon";
 import { Sort } from "@angular/material/sort";
-import { MatMultiSortDirective } from "../../public-api";
+import { MatMultiSortDirective } from "../mat-multi-sort.directive";
 
 @Component({
   selector: "mat-multi-sort-control",
