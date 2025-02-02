@@ -159,9 +159,7 @@ describe("AppComponent", () => {
       { active: "score", direction: "desc" },
     ]);
 
-    component.onPersistenceModeChanged({
-      event: { value: "Custom_2" } as MatRadioChange,
-    });
+    component.onPersistenceModeChanged({ value: "Custom_2" } as MatRadioChange);
     fixture.detectChanges(); // Trigger change detection cycle to apply effects
     expect(setItemSpy).toHaveBeenCalledWith("persistenceMode", "Custom_2");
     expect(setItemSpy).toHaveBeenCalledWith(
