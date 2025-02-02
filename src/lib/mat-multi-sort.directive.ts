@@ -19,14 +19,48 @@ import {
   SortDirection,
 } from "@angular/material/sort";
 
+/**
+ * Injection token for the storage mechanism used to persist sorting state.
+ *
+ * This token can be used to provide a custom storage implementation for persisting
+ * the sorting state of a table. By default, it can be set to use localStorage, sessionStorage,
+ * or any other storage mechanism that implements the Storage interface.
+ *
+ */
 export const SORT_PERSISTENCE_STORAGE = new InjectionToken<Storage>(
   "SORT_PERSISTENCE_STORAGE"
 );
 
+/**
+ * Injection token used to enable or disable the persistence of sorting state.
+ *
+ * This token can be provided in the application's dependency injection system
+ * to control whether the sorting state of a table should be persisted across
+ * sessions or not.
+ *
+ * @example
+ * // To enable sort persistence:
+ * providers: [
+ *   { provide: SORT_PERSISTENCE_ENABLED, useValue: true }
+ * ]
+ *
+ * @example
+ * // To disable sort persistence:
+ * providers: [
+ *   { provide: SORT_PERSISTENCE_ENABLED, useValue: false }
+ * ]
+ */
 export const SORT_PERSISTENCE_ENABLED = new InjectionToken<boolean>(
   "SORT_PERSISTENCE_ENABLED"
 );
 
+/**
+ * Injection token for the key used to persist sorting state.
+ *
+ * This token can be used to provide a custom key for storing
+ * the sorting state in a persistence layer, such as local storage
+ * or a database.
+ */
 export const SORT_PERSISTENCE_KEY = new InjectionToken<string>(
   "SORT_PERSISTENCE_KEY"
 );
@@ -75,6 +109,7 @@ export class MatMultiSortDirective extends MatSort {
       this._sorts.set(sortsSerialized ? JSON.parse(sortsSerialized) : []);
     }
 
+    // Update the sorting state when the sorts signal changes.
     effect(() => {
       const length = this._sorts().length;
       this.sortChange.emit({

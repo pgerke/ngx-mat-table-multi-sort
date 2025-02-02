@@ -98,7 +98,17 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     MEMBER_DATA
   );
 
+  /**
+   * A reference to the available persistence modes.
+   */
   persistenceModes = PersistenceModes;
+
+  /**
+   * The mode of persistence for the application.
+   *
+   * @type {PersistenceMode}
+   * @default "Default"
+   */
   persistenceMode: PersistenceMode = "Default";
 
   /**
@@ -173,6 +183,16 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscription = undefined;
   }
 
+  /**
+   * Loads the sorting and column configuration from the session storage.
+   *
+   * This method retrieves the sorting configuration and column configuration
+   * from the session storage based on the current persistence mode. If the
+   * configurations are found, they are applied to the respective properties.
+   * If not, the method resets the sorts and columns to their default states.
+   *
+   * @returns {void}
+   */
   load(): void {
     // Load sorts
     const sorts = sessionStorage.getItem(`sorts-${this.persistenceMode}`);
@@ -187,6 +207,15 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     } else this.resetColumns();
   }
 
+  /**
+   * Handles changes in the persistence of sorting states.
+   *
+   * This method is triggered when the sorting state changes and persists the new state
+   * in the session storage if the component has been initialized.
+   *
+   * @param {Sort[]} sorts - An array of sorting configurations to be persisted.
+   * @returns {void}
+   */
   onPersistenceChanged(sorts: Sort[]): void {
     if (!this.initialized) return;
 
@@ -196,12 +225,24 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
+  /**
+   * Handles the change event for the persistence mode radio buttons.
+   * Updates the persistence mode based on the selected value, stores it in session storage,
+   * and reloads the configuration.
+   *
+   * @param event - The change event from the MatRadioChange.
+   */
   onPersistenceModeChanged(event: MatRadioChange): void {
     this.persistenceMode = event.value;
     sessionStorage.setItem(persistenceModeKey, this.persistenceMode);
     this.load();
   }
 
+  /**
+   * Resets the table to it's predefined state.
+   * This method calls `resetColumns` to reset the columns
+   * and `resetSorts` to reset the sorting criteria.
+   */
   reset(): void {
     this.resetColumns();
     this.resetSorts();

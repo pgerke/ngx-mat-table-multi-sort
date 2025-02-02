@@ -1,9 +1,9 @@
 import { CdkDragDrop } from "@angular/cdk/drag-drop";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { generateColumns, Test } from "../../test";
-import { MatTableColumnConfigComponent } from "./mat-table-column-config.component";
 import { COLUMN_CONFIG_PERSISTENCE_ENABLED } from "../mat-table-column-config";
 import { MatTableColumnConfigPersistenceService } from "../mat-table-column-config-persistence.service";
+import { MatTableColumnConfigComponent } from "./mat-table-column-config.component";
 
 describe("MatTableColumnConfigComponent", () => {
   let component: MatTableColumnConfigComponent<Test>;

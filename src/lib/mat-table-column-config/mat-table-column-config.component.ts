@@ -7,9 +7,9 @@ import {
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatIconModule } from "@angular/material/icon";
-import { MatTableColumnConfigPersistenceService } from "../mat-table-column-config-persistence.service";
 import { Subscription } from "rxjs";
 import { TableColumn } from "../mat-table-column-config";
+import { MatTableColumnConfigPersistenceService } from "../mat-table-column-config-persistence.service";
 
 @Component({
   selector: "mat-table-column-config",

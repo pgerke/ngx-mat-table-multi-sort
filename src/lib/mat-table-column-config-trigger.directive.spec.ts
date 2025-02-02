@@ -25,7 +25,6 @@ describe("MatTableColumnConfigTriggerDirective", () => {
     overlay = TestBed.inject(Overlay);
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
-    // component.columns = generateColumns();
     fixture.detectChanges();
   });
 
@@ -43,7 +42,6 @@ describe("MatTableColumnConfigTriggerDirective", () => {
     expect(overlayRef.hasAttached()).toBeTrue();
     expect(overlayRef.backdropElement).not.toBeNull();
     expect(component.componentRef).not.toBeNull();
-    // expect(component.componentRef!.instance.columns).toEqual(component.columns);
     overlayRef.backdropElement!.click();
     tick();
     expect(component.componentRef).toBeNull();

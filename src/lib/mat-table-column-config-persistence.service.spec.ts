@@ -1,10 +1,10 @@
 import { fakeAsync, TestBed, tick } from "@angular/core/testing";
-import { MatTableColumnConfigPersistenceService } from "./mat-table-column-config-persistence.service";
+import { Test } from "../test";
 import {
   COLUMN_CONFIG_PERSISTENCE_STORAGE,
   TableColumn,
 } from "./mat-table-column-config";
-import { Test } from "../test";
+import { MatTableColumnConfigPersistenceService } from "./mat-table-column-config-persistence.service";
 
 describe("MatTableColumnConfigPersistenceService", () => {
   let getItemSpy: jasmine.Spy;
