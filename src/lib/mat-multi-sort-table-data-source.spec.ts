@@ -1,11 +1,14 @@
 import { Component } from "@angular/core";
-import { TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatSort, Sort } from "@angular/material/sort";
 import {
   MatMultiSortTableDataSource,
   MultiCriterionSort,
 } from "./mat-multi-sort-table-data-source";
-import { MatMultiSortDirective } from "./mat-multi-sort.directive";
+import {
+  MatMultiSortDirective,
+  SORT_PERSISTENCE_ENABLED,
+} from "./mat-multi-sort.directive";
 
 @Component({
   selector: "mat-multi-sort-test",
@@ -46,6 +49,12 @@ function generateData(): TestData[] {
     },
   ];
 }
+
+@Component({
+  selector: "mat-multi-sort-test",
+  standalone: true,
+})
+class TestComponent extends MatMultiSortDirective {}
 
 describe("MultiCriterionSort", () => {
   let data: TestData[];
@@ -88,15 +97,17 @@ describe("MultiCriterionSort", () => {
 });
 
 describe("MatMultiSortTableDataSource", () => {
+  let fixture: ComponentFixture<TestComponent>;
+  let directive: MatMultiSortDirective;
   let data: TestData[];
   let dataSource: MatMultiSortTableDataSource<TestData>;
-  let directive: MatMultiSortDirective;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
-      imports: [TestComponent],
+    await TestBed.configureTestingModule({
+      imports: [TestComponent, MatMultiSortDirective],
+      providers: [{ provide: SORT_PERSISTENCE_ENABLED, useValue: false }],
     }).compileComponents();
-    const fixture = TestBed.createComponent(TestComponent);
+    fixture = TestBed.createComponent(TestComponent);
     directive = fixture.componentInstance;
     data = generateData();
     dataSource = new MatMultiSortTableDataSource();
