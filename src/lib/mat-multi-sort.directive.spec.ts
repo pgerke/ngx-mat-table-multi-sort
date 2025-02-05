@@ -27,6 +27,7 @@ describe("MatMultiSortDirective", () => {
     setItemSpy = spyOn(globalThis.sessionStorage, "setItem");
     await TestBed.configureTestingModule({
       imports: [TestComponent, MatMultiSortDirective],
+      providers: [
         { provide: SORT_PERSISTENCE_STORAGE, useValue: sessionStorage },
       ],
     }).compileComponents();
@@ -38,7 +39,6 @@ describe("MatMultiSortDirective", () => {
       { active: "col2", direction: "desc" },
       { active: "col3", direction: "asc" },
     ]);
-    fixture.detectChanges();
   });
 
   it("should create an instance", () => {

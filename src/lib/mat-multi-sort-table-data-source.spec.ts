@@ -50,12 +50,6 @@ function generateData(): TestData[] {
   ];
 }
 
-@Component({
-  selector: "mat-multi-sort-test",
-  standalone: true,
-})
-class TestComponent extends MatMultiSortDirective {}
-
 describe("MultiCriterionSort", () => {
   let data: TestData[];
 

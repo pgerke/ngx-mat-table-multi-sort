@@ -1,5 +1,5 @@
 import { moveItemInArray } from "@angular/cdk/drag-drop";
-import { Directive, signal, WritableSignal } from "@angular/core";
+import {
   Directive,
   effect,
   EventEmitter,
@@ -85,6 +85,7 @@ export class MatMultiSortDirective extends MatSort {
    */
   readonly _sorts: WritableSignal<Sort[]> = signal([]);
 
+  constructor(
     @Optional()
     @Inject(SORT_PERSISTENCE_ENABLED)
     public isPersistenceEnabled: boolean,
@@ -109,8 +110,7 @@ export class MatMultiSortDirective extends MatSort {
       this._sorts.set(sortsSerialized ? JSON.parse(sortsSerialized) : []);
     }
 
-     * This is necessary because the sortChange event is not emitted when the _sorts signal is updated directly (e.g., this._sorts.set([])).
-     */
+    // This is necessary because the sortChange event is not emitted when the _sorts signal is updated directly (e.g., this._sorts.set([])).
     effect(() => {
       const length = this._sorts().length;
       this.sortChange.emit({

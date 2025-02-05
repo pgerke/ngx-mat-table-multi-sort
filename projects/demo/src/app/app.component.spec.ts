@@ -126,6 +126,13 @@ describe("AppComponent", () => {
     expect(component.sort._sorts()).toEqual(sorts);
   });
 
+  it("should not store settings when application is not initalized", () => {
+    const instance = component as unknown as { initialized: boolean };
+    expect(instance.initialized).toBeFalse();
+    component.onPersistenceChanged([]);
+    expect(setItemSpy).not.toHaveBeenCalled();
+  });
+
   it("should load new state when persistence mode is changed", () => {
     fixture.detectChanges();
     expect(component.sort.isPersistenceEnabled).toBeFalse();
