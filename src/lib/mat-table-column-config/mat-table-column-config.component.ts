@@ -4,10 +4,12 @@ import {
   CdkDropList,
   moveItemInArray,
 } from "@angular/cdk/drag-drop";
-import { Component, Inject } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatIconModule } from "@angular/material/icon";
-import { TABLE_COLUMNS, TableColumn } from "../mat-table-column-config";
+import { Subscription } from "rxjs";
+import { TableColumn } from "../mat-table-column-config";
+import { MatTableColumnConfigPersistenceService } from "../mat-table-column-config-persistence.service";
 
 @Component({
   selector: "mat-table-column-config",
@@ -16,8 +18,26 @@ import { TABLE_COLUMNS, TableColumn } from "../mat-table-column-config";
   styleUrl: "./mat-table-column-config.component.scss",
   standalone: true,
 })
-export class MatTableColumnConfigComponent<T> {
-  constructor(@Inject(TABLE_COLUMNS) readonly columns: TableColumn<T>[]) {}
+export class MatTableColumnConfigComponent<T> implements OnInit, OnDestroy {
+  private subscription: Subscription | undefined;
+  columns: TableColumn<T>[] = [];
+
+  constructor(
+    private readonly persistenceService: MatTableColumnConfigPersistenceService<T>
+  ) {}
+
+  ngOnInit(): void {
+    this.subscription = this.persistenceService
+      .getColumns()
+      .subscribe((columns) => {
+        this.columns = columns;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+    this.subscription = undefined;
+  }
 
   /**
    * Handles the event when a dragged column is dropped.
@@ -27,6 +47,7 @@ export class MatTableColumnConfigComponent<T> {
    */
   onColumnDropped(event: CdkDragDrop<T>): void {
     moveItemInArray(this.columns, event.previousIndex, event.currentIndex);
+    this.persistenceService.columns = this.columns;
   }
 
   /**
@@ -39,5 +60,6 @@ export class MatTableColumnConfigComponent<T> {
     if (index < 0) return;
 
     this.columns[index].visible = !this.columns[index].visible;
+    this.persistenceService.columns = this.columns;
   }
 }
