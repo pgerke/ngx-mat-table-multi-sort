@@ -75,6 +75,7 @@ export const SORT_PERSISTENCE_KEY = new InjectionToken<string>(
 export class MatMultiSortDirective extends MatSort {
   @Output()
   private readonly persistenceChanged = new EventEmitter<Sort[]>();
+  private _key: string;
 
   /**
    * A writable signal that holds an array of Sort objects.
@@ -84,13 +85,22 @@ export class MatMultiSortDirective extends MatSort {
    */
   readonly _sorts: WritableSignal<Sort[]> = signal([]);
 
+  /**
+   * Gets the key used for column configuration persistence.
+   *
+   * @returns {string} The key used for column configuration persistence.
+   */
+  public get key(): string {
+    return this._key;
+  }
+
   constructor(
     @Optional()
     @Inject(SORT_PERSISTENCE_ENABLED)
     public isPersistenceEnabled: boolean,
     @Optional()
     @Inject(SORT_PERSISTENCE_KEY)
-    private readonly key: string,
+    readonly initialKey: string,
     @Optional()
     @Inject(SORT_PERSISTENCE_STORAGE)
     private readonly storage: Storage,
@@ -101,7 +111,7 @@ export class MatMultiSortDirective extends MatSort {
     super(defaultOptions);
 
     this.isPersistenceEnabled ??= true;
-    this.key ??= "mat-table-persistence-sort";
+    this._key = initialKey ?? "mat-table-persistence-sort";
     this.storage ??= localStorage;
 
     if (this.isPersistenceEnabled) {
@@ -235,5 +245,24 @@ export class MatMultiSortDirective extends MatSort {
     this.persistenceChanged.emit(this._sorts());
     if (this.isPersistenceEnabled)
       this.storage.setItem(this.key, JSON.stringify(this._sorts()));
+  }
+
+  /**
+   * Sets the persistence key for storing sort settings and optionally overwrites the persisted value.
+   *
+   * @param key - The key to be used for persisting sort settings.
+   * @param overwritePersistedValue - If true, the current sort settings will be persisted immediately, overwriting any existing value. Defaults to false.
+   *
+   * @returns void
+   */
+  public setPersistenceKey(key: string, overwritePersistedValue = false): void {
+    this._key = key;
+    if (overwritePersistedValue) {
+      this.persistSortSettings();
+      return;
+    }
+
+    const sortsSerialized = this.storage.getItem(this.key);
+    this._sorts.set(sortsSerialized ? JSON.parse(sortsSerialized) : []);
   }
 }

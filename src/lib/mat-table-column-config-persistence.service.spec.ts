@@ -73,6 +73,39 @@ describe("MatTableColumnConfigPersistenceService", () => {
     service.columns = test;
     expect(setItemSpy).toHaveBeenCalledTimes(1);
   });
+
+  it("should load persisted value when key changes", () => {
+    expect(service.key).toBe("mat-table-persistence-column-config");
+    const test: TableColumn<Test>[] = [
+      { id: "id", label: "ID", visible: false },
+      { id: "name", label: "Name", visible: true },
+      { id: "value", label: "Value", visible: true },
+    ];
+    service.columns = test;
+    expect(setItemSpy).toHaveBeenCalledTimes(1);
+    service.setPersistenceKey("test-key");
+    expect(service.key).toBe("test-key");
+    expect(getItemSpy).toHaveBeenCalledWith("test-key");
+    expect(service.columns).toEqual([]);
+    getItemSpy.and.returnValue(JSON.stringify(test));
+    service.setPersistenceKey("test-key1");
+    expect(service.key).toBe("test-key1");
+    expect(service.columns).toEqual(test);
+    expect(setItemSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it("should overwrite persisted columns when key changes", () => {
+    const test: TableColumn<Test>[] = [
+      { id: "id", label: "ID", visible: false },
+      { id: "name", label: "Name", visible: true },
+      { id: "value", label: "Value", visible: true },
+    ];
+    service.columns = test;
+    expect(getItemSpy).toHaveBeenCalledTimes(1);
+    service.setPersistenceKey("test-key", true);
+    expect(setItemSpy).toHaveBeenCalledWith("test-key", JSON.stringify(test));
+    expect(getItemSpy).toHaveBeenCalledTimes(1);
+  });
 });
 
 describe("MatTableColumnConfigPersistenceService", () => {
