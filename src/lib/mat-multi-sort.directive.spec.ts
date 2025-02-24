@@ -18,12 +18,13 @@ import {
 class TestComponent extends MatMultiSortDirective {}
 
 describe("MatMultiSortDirective", () => {
+  let getItemSpy: jasmine.Spy;
   let setItemSpy: jasmine.Spy;
   let fixture: ComponentFixture<TestComponent>;
   let directive: TestComponent;
 
   beforeEach(async () => {
-    spyOn(globalThis.sessionStorage, "getItem");
+    getItemSpy = spyOn(globalThis.sessionStorage, "getItem");
     setItemSpy = spyOn(globalThis.sessionStorage, "setItem");
     await TestBed.configureTestingModule({
       imports: [TestComponent, MatMultiSortDirective],
@@ -236,6 +237,32 @@ describe("MatMultiSortDirective", () => {
     tick();
     expect(spy).toHaveBeenCalledWith({ active: "col1", direction: "asc" });
   }));
+
+  it("should load persisted value when key changes", () => {
+    const test: Sort[] = [
+      { active: "col3", direction: "asc" },
+      { active: "col2", direction: "desc" },
+      { active: "col1", direction: "asc" },
+    ];
+    expect(directive.key).toBe("mat-table-persistence-sort");
+    directive.setPersistenceKey("test-key");
+    expect(directive.key).toBe("test-key");
+    expect(getItemSpy).toHaveBeenCalledWith("test-key");
+    expect(directive._sorts()).toEqual([]);
+    getItemSpy.and.returnValue(JSON.stringify(test));
+    directive.setPersistenceKey("test-key1");
+    expect(directive.key).toBe("test-key1");
+    expect(directive._sorts()).toEqual(test);
+    expect(setItemSpy).not.toHaveBeenCalled();
+  });
+
+  it("should overwrite persisted columns when key changes", () => {
+    const expectation = JSON.stringify(directive._sorts());
+    expect(getItemSpy).toHaveBeenCalledTimes(1);
+    directive.setPersistenceKey("test-key", true);
+    expect(setItemSpy).toHaveBeenCalledWith("test-key", expectation);
+    expect(getItemSpy).toHaveBeenCalledTimes(1);
+  });
 });
 
 describe("MatMultiSortDirective", () => {

@@ -12,6 +12,7 @@ import {
 })
 export class MatTableColumnConfigPersistenceService<T> {
   private readonly columns$ = new BehaviorSubject<TableColumn<T>[]>([]);
+  private _key: string;
 
   /**
    * Gets the current table columns configuration.
@@ -32,19 +33,28 @@ export class MatTableColumnConfigPersistenceService<T> {
     this.persistColumnConfig(value);
   }
 
+  /**
+   * Gets the key used for column configuration persistence.
+   *
+   * @returns {string} The key used for column configuration persistence.
+   */
+  public get key(): string {
+    return this._key;
+  }
+
   constructor(
     @Optional()
     @Inject(COLUMN_CONFIG_PERSISTENCE_ENABLED)
     public isPersistenceEnabled: boolean,
     @Optional()
     @Inject(COLUMN_CONFIG_PERSISTENCE_KEY)
-    private readonly key: string,
+    readonly initialKey: string,
     @Optional()
     @Inject(COLUMN_CONFIG_PERSISTENCE_STORAGE)
     private readonly storage: Storage
   ) {
     this.isPersistenceEnabled ??= true;
-    this.key ??= "mat-table-persistence-column-config";
+    this._key = initialKey ?? "mat-table-persistence-column-config";
     this.storage ??= localStorage;
 
     if (this.isPersistenceEnabled) {
@@ -67,5 +77,26 @@ export class MatTableColumnConfigPersistenceService<T> {
   private persistColumnConfig(columns: TableColumn<T>[]): void {
     if (!this.isPersistenceEnabled) return;
     this.storage.setItem(this.key, JSON.stringify(columns));
+  }
+
+  /**
+   * Sets the persistence key for storing column configurations.
+   *
+   * @param key - The key to be used for persistence.
+   * @param overwritePersistedValue - If true, the current column configuration will be persisted immediately overwriting any exising value stored under the new key.
+   *                                  If false, the persisted column configuration will be loaded and applied.
+   *                                  Defaults to false.
+   *
+   * @returns void
+   */
+  public setPersistenceKey(key: string, overwritePersistedValue = false): void {
+    this._key = key;
+    if (overwritePersistedValue) {
+      this.persistColumnConfig(this.columns);
+      return;
+    }
+
+    const columnsSerialized = this.storage.getItem(this.key);
+    this.columns$.next(columnsSerialized ? JSON.parse(columnsSerialized) : []);
   }
 }
