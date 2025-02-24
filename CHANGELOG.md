@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [18.3.0](https://github.com/pgerke/ngx-mat-table-multi-sort/releases/tag/18.3.0) - 23.02.2025
+
+### Added
+
+- [#49](https://github.com/pgerke/ngx-mat-table-multi-sort/issues/49): The persistence key can be changed at runtime
+
 ## [18.2.1](https://github.com/pgerke/ngx-mat-table-multi-sort/releases/tag/18.2.1) - 18.02.2025
 
 ### Fixed
