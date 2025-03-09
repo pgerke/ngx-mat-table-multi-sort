@@ -43,6 +43,8 @@ jobs:
         with:
           node-version: lts/*
           registry-url: "https://registry.npmjs.org"
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
