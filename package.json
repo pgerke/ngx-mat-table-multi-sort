@@ -6,12 +6,12 @@
     "ng": "ng",
     "clean": "rimraf dist coverage",
     "start:demo": "ng serve demo",
-    "build": "npm run clean && ng build --configuration production",
-    "build:demo": "npm run clean && ng build --base-href=/ngx-mat-table-multi-sort/ --configuration production demo",
+    "build": "pnpm run clean && ng build --configuration production",
+    "build:demo": "pnpm run clean && ng build --base-href=/ngx-mat-table-multi-sort/ --configuration production demo",
     "test": "ng test lib --browsers ChromeHeadless --code-coverage",
-    "test:ci": "npm run clean && ng test --browsers ChromeHeadless --code-coverage --watch=false",
-    "lint": "npm run clean && ng lint --fix --max-warnings 0",
-    "prepublishOnly": "npm run lint && npm run build"
+    "test:ci": "pnpm run clean && ng test --browsers ChromeHeadless --code-coverage --watch=false",
+    "lint": "pnpm run clean && ng lint --fix --max-warnings 0",
+    "prepublishOnly": "pnpm run lint && pnpm run build"
   },
   "license": "MIT",
   "author": {
