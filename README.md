@@ -22,7 +22,7 @@ An Angular library that adds multi-sort capability to the Angular Material table
 
 **Prerequisite:** You have created an application using a supported version of Angular and Angular Material
 
-1. In your Angular application run `npm install ngx-mat-table-multi-sort` to add the library to your dependencies
+1. In your Angular application run `pnpm install ngx-mat-table-multi-sort` to add the library to your dependencies
 1. As this library is using Material, add the following to the `head` element of your `index.html`:
 
 ```html
@@ -55,8 +55,8 @@ Enjoy multi-sorting your Angular Material data table!
 The demo application is hosted on [GitHub pages](https://pgerke.github.io/ngx-mat-table-multi-sort/). You can also clone the repository and run the demo locally.
 
 1. Clone the repository to your local machine
-1. Run `npm install` to restore the dependencies
-1. Start the demo application by running `npm run start:demo`
+1. Run `pnpm install` to restore the dependencies
+1. Start the demo application by running `pnpm run start:demo`
 1. When compilation is completed, the application is running on `http://localhost:4200`
 
 ## License
