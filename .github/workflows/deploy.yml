@@ -1,23 +1,21 @@
-name: Continuous Deployment
-
 on:
-  push:
-    branches:
-      - main
-      - v17
-      - v18
+  workflow_call:
 
 jobs:
-  ci:
-    name: Continuous Integration
-    uses: ./.github/workflows/shared.yml
-    secrets: inherit
+  cache_dependencies:
+    uses: ./.github/workflows/cache_dependencies.yml
+
+  build:
+    uses: ./.github/workflows/build.yml
+    needs: cache_dependencies
+    with:
+      pnpm_store_path: ${{ needs.cache_dependencies.outputs.pnpm-store-path }}
 
   deploy_demo:
     name: Deploy Demo
-    if: github.ref == 'refs/heads/main'
+    needs: build
+    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
-    needs: ci
     permissions:
       pages: write
       id-token: write
@@ -31,9 +29,8 @@ jobs:
 
   deploy_library:
     name: Deploy Library
-    if: "!contains(github.event.head_commit.message, '[skip deploy]')"
+    needs: build
     runs-on: ubuntu-latest
-    needs: ci
     permissions:
       contents: read
       id-token: write
