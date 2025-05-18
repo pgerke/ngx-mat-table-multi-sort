@@ -3,9 +3,11 @@ on:
 
 jobs:
   cache_dependencies:
+    name: Cache Dependencies
     uses: ./.github/workflows/cache_dependencies.yml
 
   build:
+    name: Build
     uses: ./.github/workflows/build.yml
     needs: cache_dependencies
     with:
