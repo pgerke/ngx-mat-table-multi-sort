@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Dependency bump
 - [#53](https://github.com/pgerke/ngx-mat-table-multi-sort/issues/53): Migrate to pnpm
-- [#54](https://github.com/pgerke/ngx-mat-table-multi-sort/issues/53): Add pre-commit and commitizen configurations
+- [#54](https://github.com/pgerke/ngx-mat-table-multi-sort/issues/54): Add pre-commit and commitizen configurations
 
 ## [18.3.0](https://github.com/pgerke/ngx-mat-table-multi-sort/releases/tag/18.3.0) - 24.02.2025
 
