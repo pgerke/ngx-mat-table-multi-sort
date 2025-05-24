@@ -2,6 +2,12 @@ name: Continuous Integration
 on:
   pull_request:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+      - v18
+      - v17
+
 jobs:
   ci:
     name: Continuous Integration
