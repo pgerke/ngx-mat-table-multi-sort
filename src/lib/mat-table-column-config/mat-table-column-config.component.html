@@ -1,16 +1,39 @@
-<div
-  cdkDropList
-  class="table-column-list mat-elevation-z4"
-  cdkDropListOrientation="vertical"
-  (cdkDropListDropped)="onColumnDropped($event)">
-  @for (column of columns; track column.id) {
-    <div cdkDrag class="table-column">
-      <mat-icon cdkDragHandle>drag_indicator</mat-icon>
-      <mat-checkbox
-        [checked]="column.visible"
-        (change)="onColumnVisibilityChanged(column.id)"
-        >{{ column.label }}</mat-checkbox
-      >
-    </div>
-  }
+<div class="container mat-elevation-z4">
+  <div class="toolbar">
+    <button
+      mat-icon-button
+      matTooltip="Select all columns"
+      (click)="selectAllColumns()">
+      <mat-icon>select_all</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      matTooltip="Deselect all columns"
+      (click)="deselectAllColumns()">
+      <mat-icon>deselect</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      matTooltip="Invert selection"
+      (click)="invertColumnSelection()">
+      <mat-icon>flip</mat-icon>
+    </button>
+  </div>
+  <hr />
+  <div
+    cdkDropList
+    class="table-column-list"
+    cdkDropListOrientation="vertical"
+    (cdkDropListDropped)="onColumnDropped($event)">
+    @for (column of columns; track column.id) {
+      <div cdkDrag class="table-column">
+        <mat-icon cdkDragHandle>drag_indicator</mat-icon>
+        <mat-checkbox
+          [checked]="column.visible"
+          (change)="onColumnVisibilityChanged(column.id)"
+          >{{ column.label }}</mat-checkbox
+        >
+      </div>
+    }
+  </div>
 </div>
