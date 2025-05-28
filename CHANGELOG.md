@@ -7,17 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
-### Fixed
-
-- [#74](https://github.com/pgerke/ngx-mat-table-multi-sort/issues/74): Fixed library deployment workflow
-
 ### Added
 
 - [#70](https://github.com/pgerke/ngx-mat-table-multi-sort/issues/70): Implement convenient column selection
 
+### Fixed
+
+- [#74](https://github.com/pgerke/ngx-mat-table-multi-sort/issues/74): Fixed library deployment workflow
+
 ### Changed
 
 - Dependency bump
+
 ## [18.3.1](https://github.com/pgerke/ngx-mat-table-multi-sort/releases/tag/18.3.1) - 09.03.2025
 
 ### Changed
