@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+### Fixed
+
+- [#74](https://github.com/pgerke/ngx-mat-table-multi-sort/issues/74): Fixed library deployment workflow
+
+### Added
+
+- [#70](https://github.com/pgerke/ngx-mat-table-multi-sort/issues/70): Implement convenient column selection
+
+### Changed
+
+- Dependency bump
 ## [18.3.1](https://github.com/pgerke/ngx-mat-table-multi-sort/releases/tag/18.3.1) - 09.03.2025
 
 ### Changed

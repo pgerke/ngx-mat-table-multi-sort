@@ -3,9 +3,21 @@
 
 @include mixins.cdk-drag;
 
+div.container {
+  background: var(--mat-sys-surface, #ffffff);
+  color: var(--mat-sys-on-surface, rgba(0, 0, 0, 0.87));
+
+  > hr {
+    border-color: var(--mat-inverse-on-surface, rgba(0, 0, 0, 0.87));
+  }
+
+  > div.toolbar {
+    display: inline;
+  }
+}
+
 .table-column-list {
   background-color: var(--mat-sys-surface-container, #eeeeee);
-  color: var(--mat-sys-on-surface, rgba(0, 0, 0, 0.87));
   max-height: 65vh;
   overflow: auto;
 }
