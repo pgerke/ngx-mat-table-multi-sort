@@ -46,5 +46,6 @@ jobs:
   deploy:
     name: Deploy
     uses: ./.github/workflows/deploy.yml
+    secrets: inherit
     needs: [check_release_trigger]
     if: ${{ needs.check_release_trigger.outputs.version_changed == 'true' && !contains(github.event.head_commit.message, '[skip deploy]') }}

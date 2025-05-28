@@ -60,4 +60,23 @@ describe("MatTableColumnConfigComponent", () => {
     component.onColumnVisibilityChanged("nonExistentColumn" as keyof Test);
     expect(component.columns).toEqual(initialColumns);
   });
+
+  it("should set all columns to visible when selectAllColumns is called", () => {
+    component.selectAllColumns();
+    expect(component.columns.every((col) => col.visible)).toBeTrue();
+    expect(service.columns.every((col) => col.visible)).toBeTrue();
+  });
+
+  it("should set all columns to hidden when deselectAllColumns is called", () => {
+    component.deselectAllColumns();
+    expect(component.columns.every((col) => col.visible)).toBeFalse();
+    expect(service.columns.every((col) => col.visible)).toBeFalse();
+  });
+
+  it("should invert the column selection invertColumnSelection is called", () => {
+    component.invertColumnSelection();
+    expect(component.columns[0].visible).toBeTrue(); // id was initially false
+    expect(component.columns[1].visible).toBeFalse(); // name was initially true
+    expect(component.columns[2].visible).toBeFalse(); // value was initially true
+  });
 });
