@@ -73,7 +73,7 @@ describe("MatTableColumnConfigComponent", () => {
     expect(service.columns.every((col) => col.visible)).toBeFalse();
   });
 
-  it("should invert the column selection invertColumnSelection is called", () => {
+  it("should invert the column selection when invertColumnSelection is called", () => {
     component.invertColumnSelection();
     expect(component.columns[0].visible).toBeTrue(); // id was initially false
     expect(component.columns[1].visible).toBeFalse(); // name was initially true
