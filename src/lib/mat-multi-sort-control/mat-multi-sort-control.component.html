@@ -6,7 +6,8 @@
     [disabled]="!sorts.length"
     [highlighted]="true"
     (click)="onClearClick()"
-    ><mat-icon matChipAvatar fontIcon="clear_all"></mat-icon>Clear All</mat-chip
+    ><mat-icon matChipAvatar fontIcon="clear_all"></mat-icon
+    ><span i18n>Clear All</span></mat-chip
   >
   @for (column of sorts; track $index) {
     <mat-chip
@@ -30,7 +31,7 @@
         </div>
       </div>
       {{ column.active }}
-      <button matChipRemove>
+      <button matChipRemove i18n-matTooltip matTooltip="Clear column sorting">
         <mat-icon>clear</mat-icon>
       </button>
     </mat-chip>
