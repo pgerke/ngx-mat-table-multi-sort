@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [19.6.0](https://github.com/pgerke/ngx-mat-table-multi-sort/releases/tag/19.6.0) - 27.06.2025
+
+### Added
+
+- [#89](https://github.com/pgerke/ngx-mat-table-multi-sort/issues/89): Support localization
+
 ## [19.5.1](https://github.com/pgerke/ngx-mat-table-multi-sort/releases/tag/19.5.1) - 27.05.2025
 
 ### Fixed
