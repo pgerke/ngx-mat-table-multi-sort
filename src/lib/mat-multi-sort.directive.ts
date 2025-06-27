@@ -3,12 +3,11 @@ import {
   Directive,
   effect,
   EventEmitter,
-  Inject,
   InjectionToken,
-  Optional,
   Output,
   signal,
   WritableSignal,
+  inject,
 } from "@angular/core";
 import {
   MAT_SORT_DEFAULT_OPTIONS,
@@ -73,9 +72,17 @@ export const SORT_PERSISTENCE_KEY = new InjectionToken<string>(
   },
 })
 export class MatMultiSortDirective extends MatSort {
+  private readonly storage =
+    inject<Storage>(SORT_PERSISTENCE_STORAGE, { optional: true }) ??
+    localStorage;
+  private persistenceKey =
+    inject(SORT_PERSISTENCE_KEY, { optional: true }) ??
+    "mat-table-persistence-sort";
+  isPersistenceEnabled =
+    inject(SORT_PERSISTENCE_ENABLED, { optional: true }) ?? true;
+
   @Output()
   private readonly persistenceChanged = new EventEmitter<Sort[]>();
-  private _key: string;
 
   /**
    * A writable signal that holds an array of Sort objects.
@@ -91,28 +98,16 @@ export class MatMultiSortDirective extends MatSort {
    * @returns {string} The key used for column configuration persistence.
    */
   public get key(): string {
-    return this._key;
+    return this.persistenceKey;
   }
 
-  constructor(
-    @Optional()
-    @Inject(SORT_PERSISTENCE_ENABLED)
-    public isPersistenceEnabled: boolean,
-    @Optional()
-    @Inject(SORT_PERSISTENCE_KEY)
-    readonly initialKey: string,
-    @Optional()
-    @Inject(SORT_PERSISTENCE_STORAGE)
-    private readonly storage: Storage,
-    @Optional()
-    @Inject(MAT_SORT_DEFAULT_OPTIONS)
-    defaultOptions?: MatSortDefaultOptions | undefined
-  ) {
-    super(defaultOptions);
+  constructor() {
+    const defaultOptions =
+      inject<MatSortDefaultOptions | undefined>(MAT_SORT_DEFAULT_OPTIONS, {
+        optional: true,
+      }) ?? undefined;
 
-    this.isPersistenceEnabled ??= true;
-    this._key = initialKey ?? "mat-table-persistence-sort";
-    this.storage ??= localStorage;
+    super(defaultOptions);
 
     if (this.isPersistenceEnabled) {
       const sortsSerialized = this.storage.getItem(this.key);
@@ -256,7 +251,7 @@ export class MatMultiSortDirective extends MatSort {
    * @returns void
    */
   public setPersistenceKey(key: string, overwritePersistedValue = false): void {
-    this._key = key;
+    this.persistenceKey = key;
     if (overwritePersistedValue) {
       this.persistSortSettings();
       return;

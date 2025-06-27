@@ -5,6 +5,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  inject,
 } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatChipsModule } from "@angular/material/chips";
@@ -58,6 +59,11 @@ type PersistenceMode = (typeof PersistenceModes)[number];
  * @implements {AfterViewInit}
  */
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
+  private readonly persistenceService = inject<
+    MatTableColumnConfigPersistenceService<MemberInformation>
+  >(MatTableColumnConfigPersistenceService);
+  private readonly cdr = inject(ChangeDetectorRef);
+
   /**
    * Defines the columns for the table displaying member information.
    * Each column is represented by an object containing the following properties:
@@ -145,11 +151,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
    * This value is read-only and is set from the build configuration.
    */
   readonly version = APP_VERSION;
-
-  constructor(
-    private readonly persistenceService: MatTableColumnConfigPersistenceService<MemberInformation>,
-    private readonly cdr: ChangeDetectorRef
-  ) {}
 
   ngOnInit(): void {
     this.subscription = this.persistenceService

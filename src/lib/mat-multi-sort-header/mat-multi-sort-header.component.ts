@@ -1,4 +1,3 @@
-import { NgIf } from "@angular/common";
 import { Component, inject, OnInit, ViewEncapsulation } from "@angular/core";
 import { MatSort, MatSortHeader, SortDirection } from "@angular/material/sort";
 import { MatMultiSortDirective } from "../mat-multi-sort.directive";
@@ -6,7 +5,6 @@ import { MatMultiSortDirective } from "../mat-multi-sort.directive";
 @Component({
   selector: "[mat-multi-sort-header]", // eslint-disable-line @angular-eslint/component-selector
   exportAs: "matMultiSortHeader",
-  imports: [NgIf],
   providers: [{ provide: MatSort, useExisting: MatMultiSortDirective }],
   templateUrl: "./mat-multi-sort-header.component.html",
   styleUrl: "./mat-multi-sort-header.component.scss",

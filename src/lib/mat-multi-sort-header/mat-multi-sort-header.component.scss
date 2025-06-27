@@ -1,10 +1,19 @@
-@use "@angular/material/core/tokens/m2/mat/sort" as tokens-mat-sort;
-@use "@angular/material/core/focus-indicators/private";
+@use "./m3-sort";
 @use "@angular/material/core/tokens/token-utils";
+@use "@angular/material/core/focus-indicators/private";
+
+$fallbacks: m3-sort.get-tokens();
+
+.mat-sort-header {
+  cursor: pointer;
+}
+
+.mat-sort-header-disabled {
+  cursor: default;
+}
 
 .mat-sort-header-container {
   display: flex;
-  cursor: pointer;
   align-items: center;
   letter-spacing: normal;
 
@@ -17,10 +26,6 @@
   [mat-sort-header].cdk-keyboard-focused &,
   [mat-sort-header].cdk-program-focused & {
     border-bottom: solid 1px currentColor;
-  }
-
-  .mat-sort-header-disabled & {
-    cursor: default;
   }
 
   // For the sort-header element, default inset/offset values are necessary to ensure that
@@ -78,13 +83,7 @@
     opacity $timing;
   opacity: 0;
   overflow: visible;
-
-  @include token-utils.use-tokens(
-    tokens-mat-sort.$prefix,
-    tokens-mat-sort.get-token-slots()
-  ) {
-    @include token-utils.create-token-slot(color, arrow-color);
-  }
+  color: token-utils.slot(sort-arrow-color, $fallbacks);
 
   .mat-sort-header.cdk-keyboard-focused &,
   .mat-sort-header.cdk-program-focused &,
@@ -102,8 +101,16 @@
 
   .mat-sort-header-recently-cleared-ascending & {
     transform: translateY(-25%);
+  }
+
+  .mat-sort-header-recently-cleared-ascending & {
     transition: none; // Without this the animation looks glitchy on Safari.
     animation: _mat-sort-header-recently-cleared-ascending $timing forwards;
+  }
+
+  .mat-sort-header-recently-cleared-descending & {
+    transition: none; // Without this the animation looks glitchy on Safari.
+    animation: _mat-sort-header-recently-cleared-descending $timing forwards;
   }
 
   // Set the durations to 0, but keep the actual animation, since we still want it to play.
