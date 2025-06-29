@@ -74,8 +74,29 @@ export const SORT_PERSISTENCE_KEY = new InjectionToken<string>(
   standalone: true,
 })
 export class MatMultiSortDirective extends MatSort {
+  /**
+   * Event emitter that fires when the persistence state changes.
+   *
+   * This output emits an array of Sort objects whenever the sorting state
+   * is persisted or restored from storage. This can be useful for components
+   * that need to react to changes in the persisted sorting configuration.
+   *
+   * @example
+   * ```html
+   * <table mat-table [dataSource]="dataSource" matMultiSort
+   *        (persistenceChanged)="onPersistenceChanged($event)">
+   * ```
+   *
+   * @example
+   * ```typescript
+   * onPersistenceChanged(sorts: Sort[]): void {
+   *   console.log('Sorting state changed:', sorts);
+   *   // Handle the updated sorting configuration
+   * }
+   * ```
+   */
   @Output()
-  private readonly persistenceChanged = new EventEmitter<Sort[]>();
+  public readonly persistenceChanged = new EventEmitter<Sort[]>();
   private _key: string;
 
   /**
