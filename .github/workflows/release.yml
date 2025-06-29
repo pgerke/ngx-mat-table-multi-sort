@@ -5,8 +5,7 @@ on:
     types: closed
     branches:
       - main
-      - v17
-      - v18
+      - v*
 
 jobs:
   check_release_trigger:
@@ -35,6 +34,8 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          make_latest: ${{ github.ref == 'refs/heads/main' }}
+          target_commitish: "${{ github.ref }}"
           tag_name: "${{ steps.extract_version.outputs.version }}"
           name: "v${{ steps.extract_version.outputs.version }}"
           body: |
