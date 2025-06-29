@@ -1,4 +1,4 @@
-import { Inject, Injectable, Optional } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import {
   COLUMN_CONFIG_PERSISTENCE_ENABLED,
@@ -12,7 +12,14 @@ import {
 })
 export class MatTableColumnConfigPersistenceService<T> {
   private readonly columns$ = new BehaviorSubject<TableColumn<T>[]>([]);
-  private _key: string;
+  private readonly storage =
+    inject<Storage>(COLUMN_CONFIG_PERSISTENCE_STORAGE, { optional: true }) ??
+    localStorage;
+  private persistenceKey =
+    inject(COLUMN_CONFIG_PERSISTENCE_KEY, { optional: true }) ??
+    "mat-table-persistence-column-config";
+  isPersistenceEnabled =
+    inject(COLUMN_CONFIG_PERSISTENCE_ENABLED, { optional: true }) ?? true;
 
   /**
    * Gets the current table columns configuration.
@@ -39,30 +46,14 @@ export class MatTableColumnConfigPersistenceService<T> {
    * @returns {string} The key used for column configuration persistence.
    */
   public get key(): string {
-    return this._key;
+    return this.persistenceKey;
   }
 
-  constructor(
-    @Optional()
-    @Inject(COLUMN_CONFIG_PERSISTENCE_ENABLED)
-    public isPersistenceEnabled: boolean,
-    @Optional()
-    @Inject(COLUMN_CONFIG_PERSISTENCE_KEY)
-    readonly initialKey: string,
-    @Optional()
-    @Inject(COLUMN_CONFIG_PERSISTENCE_STORAGE)
-    private readonly storage: Storage
-  ) {
-    this.isPersistenceEnabled ??= true;
-    this._key = initialKey ?? "mat-table-persistence-column-config";
-    this.storage ??= localStorage;
+  constructor() {
+    if (!this.isPersistenceEnabled) return;
 
-    if (this.isPersistenceEnabled) {
-      const columnsSerialized = this.storage.getItem(this.key);
-      this.columns$.next(
-        columnsSerialized ? JSON.parse(columnsSerialized) : []
-      );
-    }
+    const columnsSerialized = this.storage.getItem(this.key);
+    this.columns$.next(columnsSerialized ? JSON.parse(columnsSerialized) : []);
   }
 
   /**
@@ -76,7 +67,7 @@ export class MatTableColumnConfigPersistenceService<T> {
 
   private persistColumnConfig(columns: TableColumn<T>[]): void {
     if (!this.isPersistenceEnabled) return;
-    this.storage.setItem(this.key, JSON.stringify(columns));
+    this.storage.setItem(this.persistenceKey, JSON.stringify(columns));
   }
 
   /**
@@ -90,13 +81,13 @@ export class MatTableColumnConfigPersistenceService<T> {
    * @returns void
    */
   public setPersistenceKey(key: string, overwritePersistedValue = false): void {
-    this._key = key;
+    this.persistenceKey = key;
     if (overwritePersistedValue) {
       this.persistColumnConfig(this.columns);
       return;
     }
 
-    const columnsSerialized = this.storage.getItem(this.key);
+    const columnsSerialized = this.storage.getItem(this.persistenceKey);
     this.columns$.next(columnsSerialized ? JSON.parse(columnsSerialized) : []);
   }
 }

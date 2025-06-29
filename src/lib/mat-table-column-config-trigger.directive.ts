@@ -6,6 +6,7 @@ import {
   ElementRef,
   HostListener,
   ViewContainerRef,
+  inject,
 } from "@angular/core";
 import { MatTableColumnConfigComponent } from "./mat-table-column-config/mat-table-column-config.component";
 
@@ -14,6 +15,10 @@ import { MatTableColumnConfigComponent } from "./mat-table-column-config/mat-tab
   exportAs: "matTableColumnConfigTrigger",
 })
 export class MatTableColumnConfigTriggerDirective<T> {
+  private readonly elementRef = inject(ElementRef);
+  private readonly overlay = inject(Overlay);
+  private readonly viewContainerRef = inject(ViewContainerRef);
+
   private _componentRef: ComponentRef<MatTableColumnConfigComponent<T>> | null =
     null;
 
@@ -26,12 +31,6 @@ export class MatTableColumnConfigTriggerDirective<T> {
   get componentRef(): ComponentRef<MatTableColumnConfigComponent<T>> | null {
     return this._componentRef;
   }
-
-  constructor(
-    private readonly elementRef: ElementRef,
-    private readonly overlay: Overlay,
-    private readonly viewContainerRef: ViewContainerRef
-  ) {}
 
   @HostListener("click")
   onClick(): void {

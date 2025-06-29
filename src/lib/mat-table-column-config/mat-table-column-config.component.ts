@@ -4,7 +4,7 @@ import {
   CdkDropList,
   moveItemInArray,
 } from "@angular/cdk/drag-drop";
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit, inject } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatIconModule } from "@angular/material/icon";
@@ -27,12 +27,12 @@ import { MatTableColumnConfigPersistenceService } from "../mat-table-column-conf
   styleUrl: "./mat-table-column-config.component.scss",
 })
 export class MatTableColumnConfigComponent<T> implements OnInit, OnDestroy {
+  private readonly persistenceService = inject<
+    MatTableColumnConfigPersistenceService<T>
+  >(MatTableColumnConfigPersistenceService);
+
   private subscription: Subscription | undefined;
   columns: TableColumn<T>[] = [];
-
-  constructor(
-    private readonly persistenceService: MatTableColumnConfigPersistenceService<T>
-  ) {}
 
   ngOnInit(): void {
     this.subscription = this.persistenceService

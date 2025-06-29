@@ -5,8 +5,7 @@ on:
   push:
     branches:
       - main
-      - v18
-      - v17
+      - v*
 
 jobs:
   ci:
