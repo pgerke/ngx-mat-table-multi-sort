@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [18.7.0] - 22.07.2025
+
+- [#115]: Fix @angular/localize version range
+- Bump dependencies
+
 ## [18.6.0] - 29.06.2025
 
 ### Fixed
@@ -96,7 +101,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#2]: Added linter and formatter support
 - NO TICKET: Initial bootstrapping
 
-[Unreleased]: https://github.com/pgerke/ngx-mat-table-multi-sort/compare/v18.6.0...HEAD
+[Unreleased]: https://github.com/pgerke/ngx-mat-table-multi-sort/compare/v18.7.0...HEAD
+[18.7.0]: https://github.com/pgerke/ngx-mat-table-multi-sort/releases/tag/18.7.0
 [18.6.0]: https://github.com/pgerke/ngx-mat-table-multi-sort/releases/tag/18.6.0
 [18.5.0]: https://github.com/pgerke/ngx-mat-table-multi-sort/releases/tag/18.5.0
 [18.4.1]: https://github.com/pgerke/ngx-mat-table-multi-sort/releases/tag/18.4.1
@@ -107,6 +113,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [18.2.0]: https://github.com/pgerke/ngx-mat-table-multi-sort/releases/tag/18.2.0
 [18.1.0]: https://github.com/pgerke/ngx-mat-table-multi-sort/releases/tag/18.1.0
 [18.0.0]: https://github.com/pgerke/ngx-mat-table-multi-sort/releases/tag/18.0.0
+[#115]: https://github.com/pgerke/ngx-mat-table-multi-sort/issues/115
 [#89]: https://github.com/pgerke/ngx-mat-table-multi-sort/issues/89
 [#77]: https://github.com/pgerke/ngx-mat-table-multi-sort/issues/77
 [#70]: https://github.com/pgerke/ngx-mat-table-multi-sort/issues/70
