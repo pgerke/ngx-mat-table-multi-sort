@@ -59,7 +59,7 @@
     "@angular/compiler-cli": "^20.1.2",
     "@angular/platform-browser": "^20.1.2",
     "@angular/platform-browser-dynamic": "^20.1.2",
-    "@eslint/js": "^9.31.0",
+    "@eslint/js": "^9.34.0",
     "@types/jasmine": "~5.1.8",
     "angular-eslint": "^20.1.1",
     "eslint": "^9.31.0",
