@@ -37,13 +37,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
       - name: Setup Node.js
         uses: actions/setup-node@v5
         with:
           node-version: lts/*
           registry-url: "https://registry.npmjs.org"
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
       - name: Download artifacts
         uses: actions/download-artifact@v5
         with:
