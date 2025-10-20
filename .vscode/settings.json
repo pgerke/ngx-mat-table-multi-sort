@@ -1,0 +1,6 @@
+{
+  "sonarlint.connectedMode.project": {
+    "connectionId": "pgerke",
+    "projectKey": "pgerke_ngx-mat-table-multi-sort"
+  }
+}
