@@ -56,7 +56,7 @@ The demo application is hosted on [GitHub pages](https://pgerke.github.io/ngx-ma
 
 1. Clone the repository to your local machine
 1. Run `pnpm install` to restore the dependencies
-1. Start the demo application by running `pnpm run start:demo`
+1. Start the demo application by running `pnpm start:demo`
 1. When compilation is completed, the application is running on `http://localhost:4200`
 
 ## License
