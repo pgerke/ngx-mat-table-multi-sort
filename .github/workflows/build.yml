@@ -30,7 +30,7 @@ jobs:
       - name: Build for production
         run: pnpm run build
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: library
           path: dist/lib
