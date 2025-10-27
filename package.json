@@ -1,7 +1,7 @@
 {
   "name": "ngx-mat-table-multi-sort",
-  "version": "20.4.0",
-  "preview": false,
+  "version": "20.4.0-pre.0",
+  "preview": true,
   "scripts": {
     "ng": "ng",
     "clean": "rimraf dist coverage",
@@ -90,5 +90,8 @@
       "lmdb",
       "msgpackr-extract"
     ]
+  },
+  "publishConfig": {
+    "directory": "./dist/lib"
   }
 }
