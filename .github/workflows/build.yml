@@ -15,7 +15,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
       - name: Setup Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: lts/*
       - name: Restore pnpm store
@@ -30,7 +30,7 @@ jobs:
       - name: Build for production
         run: pnpm run build
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: library
           path: dist/lib
@@ -45,7 +45,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
       - name: Setup Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: lts/*
       - name: Restore pnpm store
