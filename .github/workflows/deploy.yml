@@ -1,8 +1,5 @@
 on:
   workflow_call:
-  pull_request:
-    branches:
-      - main
 
 jobs:
   cache_dependencies:
@@ -86,6 +83,6 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Publish to npmjs.org
         run: |
-          pnpm publish --access public --tag issue-184 --no-git-checks;
+          pnpm publish --access public --tag latest
         env:
           NPM_CONFIG_PROVENANCE: true
