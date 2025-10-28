@@ -114,7 +114,6 @@ importers:
       zone.js:
         specifier: ^0.15.1
         version: 0.15.1
-    publishDirectory: ./dist/lib
 
 packages:
 

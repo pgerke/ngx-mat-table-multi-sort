@@ -5,41 +5,15 @@ jobs:
   cache_dependencies:
     uses: ./.github/workflows/cache_dependencies.yml
 
-  build_demo:
-    name: Build Demo
+  build:
+    uses: ./.github/workflows/build.yml
     needs: cache_dependencies
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v5
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: lts/*
-      - name: Restore pnpm store
-        uses: actions/cache@v4
-        with:
-          path: ${{ needs.cache_dependencies.outputs.pnpm-store-path }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-      - name: Restore dependencies
-        run: pnpm install --frozen-lockfile
-      - name: Update application version
-        run: sed -i "s/APP_VERSION = \".*\"/APP_VERSION = \"v$(jq -r .version package.json)-$(git rev-parse --short HEAD)\"/g" projects/demo/src/app/app.component.ts
-      - name: Build for production
-        run: pnpm build:demo
-      - name: Upload artifacts
-        id: deployment
-        uses: actions/upload-pages-artifact@v4
-        with:
-          path: dist/demo/browser
+    with:
+      pnpm_store_path: ${{ needs.cache_dependencies.outputs.pnpm-store-path }}
 
   deploy_demo:
     name: Deploy Demo
-    needs: build_demo
+    needs: build
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     permissions:
@@ -55,7 +29,7 @@ jobs:
 
   deploy_library:
     name: Deploy Library
-    needs: cache_dependencies
+    needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -72,17 +46,13 @@ jobs:
           registry-url: "https://registry.npmjs.org"
       - name: Update npm to support OIDC
         run: npm install -g npm@^11.5.1
-      - name: Restore pnpm store
-        uses: actions/cache@v4
+      - name: Download artifacts
+        uses: actions/download-artifact@v6
         with:
-          path: ${{ needs.cache_dependencies.outputs.pnpm-store-path }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-      - name: Restore dependencies
-        run: pnpm install --frozen-lockfile
+          name: library
+          path: "./dist/lib"
       - name: Publish to npmjs.org
         run: |
-          pnpm publish --access public --tag latest
+          pnpm publish ./dist/lib --access public --tag latest;
         env:
           NPM_CONFIG_PROVENANCE: true
