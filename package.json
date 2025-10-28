@@ -1,17 +1,17 @@
 {
   "name": "ngx-mat-table-multi-sort",
-  "version": "20.3.0",
+  "version": "20.4.0",
   "preview": false,
   "scripts": {
     "ng": "ng",
     "clean": "rimraf dist coverage",
     "start:demo": "ng serve demo",
-    "build": "pnpm run clean && ng build --configuration production",
-    "build:demo": "pnpm run clean && ng build --base-href=/ngx-mat-table-multi-sort/ --configuration production demo",
+    "build": "pnpm clean && ng build --configuration production",
+    "build:demo": "pnpm clean && ng build --base-href=/ngx-mat-table-multi-sort/ --configuration production demo",
     "test": "ng test lib --browsers ChromeHeadless --code-coverage",
-    "test:ci": "pnpm run clean && ng test --browsers ChromeHeadless --code-coverage --watch=false",
-    "lint": "pnpm run clean && ng lint --fix --max-warnings 0",
-    "prepublishOnly": "pnpm run lint && pnpm run build"
+    "test:ci": "pnpm clean && ng test --browsers ChromeHeadless --code-coverage --watch=false",
+    "lint": "pnpm clean && ng lint --fix --max-warnings 0",
+    "prepublishOnly": "pnpm lint && pnpm build"
   },
   "license": "MIT",
   "author": {
@@ -41,27 +41,27 @@
     "tslib": "^2.8.1"
   },
   "peerDependencies": {
-    "@angular/animations": "^20.3.6",
-    "@angular/cdk": "^20.2.9",
-    "@angular/common": "^20.3.6",
-    "@angular/core": "^20.3.6",
-    "@angular/forms": "^20.3.6",
-    "@angular/localize": "^20.3.6",
-    "@angular/material": "^20.2.9",
+    "@angular/animations": "^20.3.7",
+    "@angular/cdk": "^20.2.10",
+    "@angular/common": "^20.3.7",
+    "@angular/core": "^20.3.7",
+    "@angular/forms": "^20.3.7",
+    "@angular/localize": "^20.3.7",
+    "@angular/material": "^20.2.10",
     "rxjs": "^7.8.1",
     "zone.js": "^0.15.0"
   },
   "devDependencies": {
-    "@angular-eslint/builder": "^20.4.0",
-    "@angular/build": "^20.3.6",
-    "@angular/cli": "^20.3.6",
-    "@angular/compiler": "^20.3.6",
-    "@angular/compiler-cli": "^20.3.6",
-    "@angular/platform-browser": "^20.3.6",
-    "@angular/platform-browser-dynamic": "^20.3.6",
+    "@angular-eslint/builder": "^20.5.0",
+    "@angular/build": "^20.3.7",
+    "@angular/cli": "^20.3.7",
+    "@angular/compiler": "^20.3.7",
+    "@angular/compiler-cli": "^20.3.7",
+    "@angular/platform-browser": "^20.3.7",
+    "@angular/platform-browser-dynamic": "^20.3.7",
     "@eslint/js": "^9.38.0",
     "@types/jasmine": "~5.1.12",
-    "angular-eslint": "^20.4.0",
+    "angular-eslint": "^20.5.0",
     "eslint": "^9.38.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
@@ -80,7 +80,7 @@
     "zone.js": "^0.15.1"
   },
   "sideEffects": false,
-  "packageManager": "pnpm@10.18.3+sha512.bbd16e6d7286fd7e01f6b3c0b3c932cda2965c06a908328f74663f10a9aea51f1129eea615134bf992831b009eabe167ecb7008b597f40ff9bc75946aadfb08d",
+  "packageManager": "pnpm@10.19.1-oidc-test.3+sha512.e5961a4b56bb37620f97b65da4ca56216634bf39ed358eda925f0f036534d458fa249d93ed0021410523f8bb7ed8512b61fe5532ed3e81777793366c6be026b5",
   "pnpm": {
     "onlyBuiltDependencies": [
       "@parcel/watcher",
@@ -90,5 +90,8 @@
       "lmdb",
       "msgpackr-extract"
     ]
+  },
+  "publishConfig": {
+    "directory": "./dist/lib"
   }
 }
