@@ -53,6 +53,6 @@ jobs:
           path: "./dist/lib"
       - name: Publish to npmjs.org
         run: |
-          pnpm publish ./dist/lib --access public --tag v19-lts --no-git-checks
+          pnpm publish ./dist/lib --access public --tag v18-lts --no-git-checks
         env:
           NPM_CONFIG_PROVENANCE: true
