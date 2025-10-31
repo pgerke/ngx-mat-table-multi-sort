@@ -1,6 +1,6 @@
 {
   "name": "ngx-mat-table-multi-sort",
-  "version": "18.8.0",
+  "version": "18.9.0",
   "preview": false,
   "scripts": {
     "ng": "ng",
@@ -59,13 +59,13 @@
     "@angular/localize": "^18.2.14",
     "@angular/platform-browser": "^18.2.14",
     "@angular/platform-browser-dynamic": "^18.2.14",
-    "@eslint/js": "^9.35.0",
-    "@types/jasmine": "~5.1.9",
+    "@eslint/js": "^9.39.0",
+    "@types/jasmine": "~5.1.12",
     "angular-eslint": "^18.4.3",
-    "eslint": "^9.35.0",
+    "eslint": "^9.39.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
-    "jasmine-core": "~5.10.0",
+    "jasmine-core": "~5.12.1",
     "karma": "~6.4.4",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.1",
@@ -74,12 +74,12 @@
     "ng-packagr": "^18.2.1",
     "prettier": "3.6.2",
     "prettier-eslint": "^16.4.2",
-    "rimraf": "^6.0.1",
-    "typescript": "<5.6.0",
-    "typescript-eslint": "^8.43.0"
+    "rimraf": "^6.1.0",
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.46.2"
   },
   "sideEffects": false,
-  "packageManager": "pnpm@10.16.1+sha512.0e155aa2629db8672b49e8475da6226aa4bdea85fdcdfdc15350874946d4f3c91faaf64cbdc4a5d1ab8002f473d5c3fcedcd197989cf0390f9badd3c04678706",
+  "packageManager": "pnpm@10.20.0+sha512.cf9998222162dd85864d0a8102e7892e7ba4ceadebbf5a31f9c2fce48dfce317a9c53b9f6464d1ef9042cba2e02ae02a9f7c143a2b438cd93c91840f0192b9dd",
   "pnpm": {
     "onlyBuiltDependencies": [
       "@parcel/watcher",
