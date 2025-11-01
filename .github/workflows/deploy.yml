@@ -40,18 +40,19 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
       - name: Setup Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: lts/*
           registry-url: "https://registry.npmjs.org"
+      - name: Update npm to support OIDC
+        run: npm install -g npm@^11.5.1
       - name: Download artifacts
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: library
           path: "./dist/lib"
       - name: Publish to npmjs.org
         run: |
-          pnpm publish ./dist/lib --access public --tag v18-lts --no-git-checks;
+          pnpm publish ./dist/lib --access public --tag v18-lts --no-git-checks
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
