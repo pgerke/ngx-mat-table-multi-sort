@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [21.0.0] - 30.11.2025
+
+### Changed
+
+- [#203] Support Angular 21 and bump dependencies
+
 ## [20.4.0] - 28.10.2025
 
 ### Fixed
@@ -44,12 +50,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [#87]: Migrate to Angular 20
 
-[Unreleased]: https://github.com/pgerke/ngx-mat-table-multi-sort/compare/v20.4.0...HEAD
+[Unreleased]: https://github.com/pgerke/ngx-mat-table-multi-sort/compare/21.0.0...HEAD
+[21.0.0]: https://github.com/pgerke/ngx-mat-table-multi-sort/releases/tag/21.0.0
 [20.4.0]: https://github.com/pgerke/ngx-mat-table-multi-sort/releases/tag/20.4.0
 [20.3.0]: https://github.com/pgerke/ngx-mat-table-multi-sort/releases/tag/20.3.0
 [20.2.0]: https://github.com/pgerke/ngx-mat-table-multi-sort/releases/tag/20.2.0
 [20.1.0]: https://github.com/pgerke/ngx-mat-table-multi-sort/releases/tag/20.1.0
 [20.0.0]: https://github.com/pgerke/ngx-mat-table-multi-sort/releases/tag/20.0.0
+[#203]: https://github.com/pgerke/ngx-mat-table-multi-sort/issues/203
 [#184]: https://github.com/pgerke/ngx-mat-table-multi-sort/issues/184
 [#176]: https://github.com/pgerke/ngx-mat-table-multi-sort/issues/176
 [#115]: https://github.com/pgerke/ngx-mat-table-multi-sort/issues/115
