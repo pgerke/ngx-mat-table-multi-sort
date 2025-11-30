@@ -53,6 +53,6 @@ jobs:
           path: "./dist/lib"
       - name: Publish to npmjs.org
         run: |
-          pnpm publish ./dist/lib --access public --tag latest;
+          pnpm publish ./dist/lib --access public --tag v20-lts --no-git-checks
         env:
           NPM_CONFIG_PROVENANCE: true
