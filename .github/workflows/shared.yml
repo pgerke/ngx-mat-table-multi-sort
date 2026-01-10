@@ -20,6 +20,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
+      - name: Ensure full git history for SonarQube
+        run: |
+          git fetch --unshallow || true
+          git fetch --tags
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
       - name: Setup Node.js
