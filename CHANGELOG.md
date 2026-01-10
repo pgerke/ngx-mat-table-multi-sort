@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [20.6.0] - 10.01.2026
+
+### Changed
+
+- Bump dependencies
+
 ## [20.5.0] - 30.11.2025
 
 ### Changed
@@ -50,7 +56,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [#87]: Migrate to Angular 20
 
-[Unreleased]: https://github.com/pgerke/ngx-mat-table-multi-sort/compare/v20.5.0...HEAD
+[Unreleased]: https://github.com/pgerke/ngx-mat-table-multi-sort/compare/v20.6.0...HEAD
+[20.6.0]: https://github.com/pgerke/ngx-mat-table-multi-sort/releases/tag/20.6.0
 [20.5.0]: https://github.com/pgerke/ngx-mat-table-multi-sort/releases/tag/20.5.0
 [20.4.0]: https://github.com/pgerke/ngx-mat-table-multi-sort/releases/tag/20.4.0
 [20.3.0]: https://github.com/pgerke/ngx-mat-table-multi-sort/releases/tag/20.3.0
